@@ -23,4 +23,4 @@ This will install Flask and all the other dependencies for the project.
   
 5) Make sure you are running MySQL locally. Then go into the app.py file and replace the stars in the line `app.config['MYSQL_DATABASE_PASSWORD'] = '******'` with your MySQL password for the username 'root'.  
   
-6) Once you have your dependencies and are hosting MySQL locally, run the command `python app.py` and view the project in your local browser under port 5000.
+6) Once you have your dependencies and are hosting MySQL locally, run the command in your root folder `./run.py` and view the project in your local browser under port 5000. If it says you do not have permission, use 'chmod a+x run.py' to change permissions.
