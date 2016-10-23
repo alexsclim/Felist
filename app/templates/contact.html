@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block body %}
+  <h2>Contact Us</h2>
+
+  {% if success %}
+    <p>Thank you for your message. We'll get back to you shortly.</p>
+
+  {% else %}
+
+    {% for message in form.name.errors %}
+      <div class="flash">{{ message }}</div>
+    {% endfor %}
+
+    {% for message in form.email.errors %}
+      <div class="flash">{{ message }}</div>
+    {% endfor %}
+
+    {% for message in form.subject.errors %}
+      <div class="flash">{{ message }}</div>
+    {% endfor %}
+
+    {% for message in form.message.errors %}
+      <div class="flash">{{ message }}</div>
+    {% endfor %}
+
+    <form class="form-horizontal" action="{{ url_for('contact') }}" method=post>
+      {{ form.hidden_tag() }}
+
+      <div class="form-group">
+        <label for="inputName" class="col-sm-1 control-label">{{ form.name.label }}</label>
+        {{ form.name }}
+      </div>
+
+      <div class="form-group">
+        <label for="inputEmail" class="col-sm-1 control-label">{{ form.email.label }}</label>
+      {{ form.email }}
+      </div>
+
+      <div class="form-group">
+        <label for="inputSubject" class="col-sm-1 control-label">{{ form.subject.label }}</label>
+      {{ form.subject }}
+      </div>
+
+      <div class="form-group">
+        <label for="inputMessage" class="col-sm-1 control-label">{{ form.message.label }}</label>
+      {{ form.message }}
+      </div>
+
+      <div class="form-group">
+      {{ form.submit }}
+      </div>
+    </form>
+
+  {% endif %}
+{% endblock %}

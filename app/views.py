@@ -1,10 +1,30 @@
 from app import app
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, flash
+from forms import ContactForm
 
-@app.route('/')
-@app.route('/index')
+app.secret_key = 'development key'
+
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET', 'POST'])
 def home():
+  if request.method == 'POST':
+    if request.form['contact'] == 'Contact Us':
+      return redirect(url_for('contact'))
   return render_template('index.html')
+
+
+@app.route('/contact', methods=['GET', 'POST'])
+def contact():
+  form = ContactForm()
+
+  if request.method == 'POST':
+    if form.validate() == False:
+      return render_template('contact.html', form=form)
+    else:
+      return render_template('contact.html', success=True)
+
+  elif request.method == 'GET':
+    return render_template('contact.html', form=form)
 
 @app.route('/teams')
 def teams():
