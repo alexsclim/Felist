@@ -12,8 +12,8 @@ from app import views
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'xx@gmail.com'
-app.config['MAIL_PASSWORD'] = 'xx'
+app.config['MAIL_USERNAME'] = 'dragonboatfelist@gmail.com'
+app.config['MAIL_PASSWORD'] = 'felist123'
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 mail.init_app(app)
@@ -32,7 +32,7 @@ def contact():
     if form.validate() == False:
       return render_template('contact.html', form=form)
     else:
-      msg = Message(form.subject.data, sender='clarencelam95@gmail.com', recipients=['clarencelam95@gmail.com'])
+      msg = Message(form.subject.data, sender='dragonboatfelist@gmail.com', recipients=['clarencelam95@gmail.com'])
       msg.body = """
       From: %s
       Email: %s
