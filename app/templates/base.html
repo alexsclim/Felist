@@ -12,7 +12,8 @@
         <a class="navbar-brand" href="#">Felist</a>
       </div>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Home</a></li>
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('teams') }}">Teams</a></li>
         <li><a href="/signin">Sign in</a>
       </ul>
     </nav>
