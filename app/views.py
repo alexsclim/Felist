@@ -1,9 +1,9 @@
 from app import app
 from flask import Flask, render_template, redirect, url_for, request, flash
-
 from forms import ContactForm
 from flask_mail import Message
 from app import mail
+from table import TeamTable, TeamItem
 
 app.secret_key = 'development key'
 
@@ -15,10 +15,13 @@ def home():
       return redirect(url_for('contact'))
   return render_template('index.html')
 
-
-@app.route('/teams')
+@app.route('/teams', methods=['GET', 'POST'])
 def teams():
-  return render_template('teams.html')
+  #items = ItemModel.query.all()
+  items = [TeamItem('1', 'Dragonhearts Reborn', '220.50', '1', 'Vancouver', 'British Columbia'),
+         TeamItem('2', 'Dragonhearts Thunderbreaker', '300.00', '1', 'Vancouver', 'British Columbia')]
+  table = TeamTable(items)
+  return render_template('teams.html', table=table)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
