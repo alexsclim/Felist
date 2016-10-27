@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS RegattaDetails(
 CREATE TABLE IF NOT EXISTS Admin(
   adminId int,
   username char(20),
-  encryptedPassword char(20),
+  encryptedPassword char(100),
   PRIMARY KEY(adminId)
 );
 

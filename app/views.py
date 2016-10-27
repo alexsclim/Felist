@@ -5,8 +5,6 @@ from flask_mail import Message
 from app import mail
 from table import TeamTable, TeamItem
 
-app.secret_key = 'development key'
-
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 def home():

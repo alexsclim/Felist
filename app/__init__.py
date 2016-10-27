@@ -5,6 +5,7 @@ from flask_mail import Message, Mail
 mail = Mail()
 mysql = MySQL()
 app = Flask(__name__)
+app.secret_key = 'development key'
 from app import views
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
