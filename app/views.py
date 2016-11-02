@@ -1,12 +1,10 @@
 from app import app, mail
 from flask import Flask, render_template, redirect, url_for, request, flash, session
-
+from functools import wraps
 from forms import ContactForm, RegistrationForm
 from flask_mail import Message
-
 from passlib.hash import sha256_crypt
 import gc
-
 from app import mysql
 
 conn = mysql.connect()
@@ -14,7 +12,16 @@ cur = conn.cursor()
 
 app.secret_key = 'development key'
 
+def login_required(f):
+  @wraps(f)
+  def check_session(*args, **kwargs):
+    if session.get('username') is None:
+      return redirect(url_for('login'))
+    return f(*args, **kwargs)
+  return check_session
+
 @app.route('/teams')
+@login_required
 def teams():
   return render_template('teams.html')
 
@@ -37,7 +44,6 @@ def register():
         cur.execute("INSERT INTO User(username, encryptedPassword) VALUES (%s, %s)", (username, password))
         conn.commit()
         flash("Thanks for registering!")
-        cur.close()
         gc.collect()
 
         session['logged_in'] = True
@@ -61,7 +67,14 @@ def login():
             return redirect(url_for('dashboard'))
     return render_template('login.html', error=error)
 
+@app.route('/logout')
+def logout():
+  session.pop('username', None)
+  flash("Logout succesful!")
+  return redirect(url_for('login'))
+
 @app.route('/dashboard', methods=['GET'])
+@login_required
 def dashboard():
   return render_template('dashboard.html', success=True)
 
