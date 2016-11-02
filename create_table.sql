@@ -17,10 +17,9 @@ CREATE TABLE IF NOT EXISTS RegattaDetails(
 );
 
 CREATE TABLE IF NOT EXISTS User(
-  userId int,
-  username char(20),
-  encryptedPassword char(20),
-  PRIMARY KEY(userId)
+  username char(20) ,
+  encryptedPassword char(100),
+  PRIMARY KEY(username)
 );
 
 CREATE TABLE IF NOT EXISTS RegattaLocation(
@@ -42,11 +41,11 @@ CREATE TABLE IF NOT EXISTS Team(
     teamId int,
     name char(50),
     practiceCost decimal,
-    userId int NOT NULL,
+    username char(20) NOT NULL,
     regionCity char(50) NOT NULL,
     regionProvince char(50) NOT NULL,
     PRIMARY KEY(teamId),
-    FOREIGN KEY(userId) REFERENCES user(userId)
+    FOREIGN KEY(username) REFERENCES user(username)
         ON DELETE NO ACTION
         ON UPDATE CASCADE,
     FOREIGN KEY(regionCity, regionProvince) REFERENCES Region(city, province)
