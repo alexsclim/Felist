@@ -1,9 +1,13 @@
-from app import app
-from flask import Flask, render_template, redirect, url_for, request, flash
-from app import mail
+from app import app, mail, mysql
+from flask import Flask, render_template, redirect, url_for, request, flash, session
 
-from forms import ContactForm
+from forms import ContactForm, RegistrationForm
 from flask_mail import Message
+
+from passlib.hash import sha256_crypt
+import gc
+
+cursor = mysql.connect()
 
 app.secret_key = 'development key'
 
@@ -19,6 +23,16 @@ def home():
 @app.route('/teams')
 def teams():
   return render_template('teams.html')
+
+# @app.route('/register/', methods=['GET', 'POST'])
+# def register():
+#   try:
+#     form = RegistrationForm(request.form)
+
+#     if request.method == "POST" and form.validate():
+#       username = form.username.data
+#       password = sha256_crypt.encrypt((str(form.password.data)))
+#       c, conn = connection()
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

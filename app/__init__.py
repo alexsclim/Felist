@@ -2,7 +2,6 @@ from flask import Flask
 from flaskext.mysql import MySQL
 from flask_mail import Message, Mail
 
-from forms import ContactForm
 from flask import render_template, request
 
 mail = Mail()
