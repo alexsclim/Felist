@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "alternate_base.html" %}
 {% block body %}
 <div class="container">
   <h1>Please login to our great app!</h1>
@@ -15,4 +15,5 @@
       {% endif %}
 </div>
 <a href="{{ url_for('register') }}" class="btn btn-secondary">Register Here</a>
+<a href="{{ url_for('contact') }}" class="btn btn-secondary">Contact Us</a>
 {% endblock %}
