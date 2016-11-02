@@ -27,10 +27,10 @@ INSERT INTO RegattaDetails
 VALUES
 (3, 'Steveson', 'Steveson Village', 500, '2017-08-22');
 
-INSERT INTO Admin
+INSERT INTO User
 VALUES
 (1, 'admin', 'admin');
-INSERT INTO Admin
+INSERT INTO User
 VALUES
 (2, 'felix', 'tso');
 
