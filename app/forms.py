@@ -1,4 +1,4 @@
-from flask_wtf import Form, validators
+from flask_wtf   import Form, validators
 from wtforms.fields import TextField, TextAreaField, SubmitField, PasswordField
 import wtforms
 
@@ -16,4 +16,5 @@ class RegistrationForm(Form):
       wtforms.validators.EqualTo('confirm', message='Passwords must match')
   ])
   confirm = PasswordField('Repeat Password')
+  submit = SubmitField("Register")
 
