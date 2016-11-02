@@ -1,5 +1,5 @@
 from app import app, mail
-from flask import Flask, render_template, redirect, url_for, request, flash, session
+from flask import Flask, render_template, redirect, url_for, request, flash, session, json
 from functools import wraps
 from forms import ContactForm, RegistrationForm
 from flask_mail import Message
@@ -8,7 +8,6 @@ import gc
 from app import mysql
 
 conn = mysql.connect()
-cur = conn.cursor()
 
 app.secret_key = 'development key'
 
@@ -20,6 +19,15 @@ def login_required(f):
     return f(*args, **kwargs)
   return check_session
 
+@app.route('/debug', methods=['GET'])
+def debug():
+  cur = conn.cursor()
+  db_username = cur.execute("SELECT * FROM User")
+  print ('Hello')
+  print db_username
+  print json.dumps(cur.fetchall()[0][1])
+  return render_template('login.html')
+
 @app.route('/teams')
 @login_required
 def teams():
@@ -27,6 +35,7 @@ def teams():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+  cur = conn.cursor()
   try:
     form = RegistrationForm(request.form)
 
