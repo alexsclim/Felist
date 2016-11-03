@@ -32,7 +32,12 @@ def debug():
 @app.route('/teams')
 @login_required
 def teams():
-  return render_template('teams.html')
+  cur = mysql.connection.cursor()
+  cur.execute("SELECT * from Team")
+
+  rows = cur.fetchall();
+  print rows
+  return render_template('teams.html', rows=rows)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -86,6 +91,7 @@ def login():
 
         if int(db_username) > 0:
           if int(db_password) > 0:
+            session['username'] = db_username
             return redirect(url_for('dashboard'))
           else:
             error ='Invalid Password Credentials'

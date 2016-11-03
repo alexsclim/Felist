@@ -29,10 +29,10 @@ VALUES
 
 INSERT INTO User
 VALUES
-(1, 'admin', 'admin');
+('admin', 'admin');
 INSERT INTO User
 VALUES
-(2, 'felix', 'tso');
+('felix', 'tso');
 
 INSERT INTO RegattaLocation
 VALUES
@@ -46,10 +46,10 @@ VALUES
 
 INSERT INTO Team
 VALUES
-(1, 'DragonHearts Reborn', 234.80, 1, 'Vancouver', 'British Columbia');
+(1, 'DragonHearts Reborn', 234.80, 'admin', 'Vancouver', 'British Columbia');
 INSERT INTO Team
 VALUES
-(2, 'DragonHearts ThunderBreakers', 1000.80, 1, 'Vancouver', 'British Columbia');
+(2, 'DragonHearts ThunderBreakers', 1000.80, 'felix', 'Vancouver', 'British Columbia');
 
 INSERT INTO Member
 VALUES
