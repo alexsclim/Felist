@@ -18,3 +18,7 @@ class RegistrationForm(Form):
   confirm = PasswordField('Repeat Password')
   submit = SubmitField("Register")
 
+class LoginForm(Form):
+  username = TextField('Username')
+  password = PasswordField('New Password')
+  submit = SubmitField("Login")
