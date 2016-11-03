@@ -1,19 +1,29 @@
 {% extends "alternate_base.html" %}
 {% block body %}
-<div class="container">
-  <h1>Please login to our great app!</h1>
-  <br>
-      <form action="" method="post">
-        <input type="text" placeholder="Username" name="username" value="{{
-          request.form.username }}">
-         <input type="password" placeholder="Password" name="password" value="{{
-          request.form.password }}">
-        <input class="btn btn-primary" type="submit" value="Login">
-      </form>
-      {% if error %}
-        <p class="error"><strong>Error:</strong> {{ error }}
-      {% endif %}
-</div>
-<a href="{{ url_for('register') }}" class="btn btn-secondary">Register Here</a>
-<a href="{{ url_for('contact') }}" class="btn btn-secondary">Contact Us</a>
+  <h2>Login</h2>
+
+    {% if error %}
+      <p class="error"><strong>Error:</strong> {{ error }}
+    {% endif %}
+
+    <form class="form-horizontal" action="{{ url_for('login') }}" method=post>
+      {{ form.hidden_tag() }}
+
+      <div class="form-group">
+        <label for="inputUsername" class="col-sm-1 control-label">{{ form.username.label }}</label>
+        {{ form.username }}
+      </div>
+
+      <div class="form-group">
+        <label for="inputPassword" class="col-sm-1 control-label">{{ form.password.label }}</label>
+      {{ form.password }}
+      </div>
+
+      <div class="form-group">
+      {{ form.submit }}
+      </div>
+    </form>
+
+    <a href="{{ url_for('register') }}" class="btn btn-secondary">Register Here</a>
+    <a href="{{ url_for('contact') }}" class="btn btn-secondary">Contact Us</a>
 {% endblock %}
