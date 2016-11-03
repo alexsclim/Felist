@@ -1,4 +1,4 @@
-from flask import Flask, json
+from flask import Flask
 from flask_mysqldb import MySQL
 from flask_mail import Message, Mail
 from flask import render_template, request
