@@ -8,29 +8,23 @@
         <th>teamId</th>
         <th>name</th>
         <th>practiceCost</th>
-        <th>adminId</th>
+        <th>userId</th>
         <th>regionCity</th>
         <th>regionProvince</th>
       </tr>
     </thead>
     <tbody>
-    	<tr>
-    		<td>1</td>
-    		<td>Dragonhearts Reborn</td>
-    		<td>220.50</td>
-    		<td>1</td>
-    		<td>Vancouver</td>
-    		<td>British Columbia</td>
-    	</tr>
-    	<tr>
-    		<td>2</td>
-    		<td>Dragonhearts Thunderbreaker</td>
-    		<td>300.00</td>
-    		<td>1</td>
-    		<td>Vancouver</td>
-    		<td>British Columbia</td>
-    	</tr>
-    </tbody>    
+        {% for row in rows %}
+        	<tr>
+        		<td>{{row["teamId"]}}</td>
+        		<td>{{row["name"]}}</td>
+        		<td>{{row["practiceCost"]}}</td>
+        		<td>{{row["username"]}}</td>
+        		<td>{{row["regionCity"]}}</td>
+        		<td>{{row["regionProvince"]}}</td>
+        	</tr>
+        {% endfor %}
+    </tbody>
   </table>
 </div>
 {% endblock %}
