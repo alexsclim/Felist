@@ -71,20 +71,24 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    conn = mysql.connection
+    cur = conn.cursor()
     error = None
 
     form = LoginForm(request.form)
 
     if request.method == 'POST' and form.validate():
         username = form.username.data
-        password = sha256_crypt.encrypt((str(form.password.data)))
+        password = form.password.data
 
-        db_username = cur.execute("SELECT username FROM User WHERE username= %s", (username))
-        db_password = cur.execute("SELECT encryptedPassword FROM User where encryptedPassword= %s", (password))
+        db_users = cur.execute("SELECT * FROM User WHERE username= %s", [username])
+        encryptedpassword = json.dumps(cur.fetchall()[0]['encryptedPassword'])
 
-        if int(db_username) > 0:
-          # if (sha256_crypt.verify(password, str(db_password))):
-          if int(db_password) > 0:
+        print encryptedpassword
+        print password
+
+        if int(db_users) > 0:
+          if (sha256_crypt.verify(password, encryptedpassword)):
             return redirect(url_for('dashboard'))
           else:
             error ='Invalid Password Credentials'
