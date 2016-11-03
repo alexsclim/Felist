@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block body %}
+<h2>Create New Team</h2>
+
+  {% if error %}
+    <p class="error"><strong>Error:</strong> {{ error }}
+  {% endif %}
+
+  <form class="form-horizontal" action="{{ url_for('createteam') }}" method=post>
+    {{ form.hidden_tag() }}
+
+    <div class="form-group">
+      <label for="inputUsername" class="col-sm-1 control-label">{{ form.name.label }}</label>
+      {{ form.name }}
+    </div>
+
+    <div class="form-group">
+      <label for="inputCost" class="col-sm-1 control-label">{{ form.practice_cost.label }}</label>
+    {{ form.practice_cost }}
+    </div>
+
+    <div class="form-group">
+      <label for="inputCity" class="col-sm-1 control-label">{{ form.city.label }}</label>
+    {{ form.city }}
+    </div>
+
+    <div class="form-group">
+      <label for="inputProvince" class="col-sm-1 control-label">{{ form.province.label }}</label>
+    {{ form.province }}
+    </div>
+
+    <div class="form-group">
+    {{ form.submit }}
+    </div>
+  </form>
+
+  <a href="{{ url_for('register') }}" class="btn btn-secondary">Register Here</a>
+  <a href="{{ url_for('contact') }}" class="btn btn-secondary">Contact Us</a>
+{% endblock %}
