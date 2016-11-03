@@ -43,7 +43,7 @@ def register():
 
     if request.method == "POST" and form.validate():
       username = form.username.data
-      password = sha256_crypt.encrypt((str(form.password.data)))
+      password = form.password.data
 
       db_username = cur.execute("SELECT * FROM User WHERE username = %s", [username])
 
@@ -81,14 +81,11 @@ def login():
         username = form.username.data
         password = form.password.data
 
-        db_users = cur.execute("SELECT * FROM User WHERE username= %s", [username])
-        encryptedpassword = json.dumps(cur.fetchall()[0]['encryptedPassword'])
+        db_username = cur.execute("SELECT * FROM User WHERE username= %s", [username])
+        db_password = cur.execute("SELECT * FROM User WHERE username= %s and encryptedpassword=%s", [username, password])
 
-        print encryptedpassword
-        print password
-
-        if int(db_users) > 0:
-          if (sha256_crypt.verify(password, encryptedpassword)):
+        if int(db_username) > 0:
+          if int(db_password) > 0:
             return redirect(url_for('dashboard'))
           else:
             error ='Invalid Password Credentials'
