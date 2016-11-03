@@ -86,6 +86,9 @@ def login():
 
         if int(db_username) > 0:
           if int(db_password) > 0:
+            session['logged_in'] = True
+            session['username'] = db_username
+            flash = "Login successful!"
             return redirect(url_for('dashboard'))
           else:
             error ='Invalid Password Credentials'
