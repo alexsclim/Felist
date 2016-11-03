@@ -46,6 +46,17 @@ def teams():
     username = Col('username')
     regionCity = Col('regionCity')
     regionProvince = Col('regionProvince')
+    allow_sort= True
+
+    def sort_url(self, col_key, reverse=False):
+      if reverse:
+          direction = 'desc'
+      else:
+          direction = 'asc'
+      return url_for('teams', sort=col_key, direction=direction)
+
+  # sort = request.args.get('sort', 'id')
+  # reverse = (request.args.get('direction', 'asc') == 'desc')
 
   table = ItemTable(rows)
 
