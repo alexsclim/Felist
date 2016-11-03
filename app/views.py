@@ -5,9 +5,8 @@ from forms import ContactForm, RegistrationForm
 from flask_mail import Message
 from passlib.hash import sha256_crypt
 import gc
-from app import mysql
 
-conn = mysql.connect()
+from app import mysql
 
 app.secret_key = 'development key'
 
@@ -21,11 +20,11 @@ def login_required(f):
 
 @app.route('/debug', methods=['GET'])
 def debug():
-  cur = conn.cursor()
+  cur = mysql.connection.cursor()
   db_username = cur.execute("SELECT * FROM User")
   print ('Hello')
   print db_username
-  print json.dumps(cur.fetchall()[0][1])
+  print json.dumps(cur.fetchall()[0])
   return render_template('login.html')
 
 @app.route('/teams')
