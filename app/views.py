@@ -35,6 +35,7 @@ def teams():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+  conn = mysql.connection
   cur = conn.cursor()
   try:
     form = RegistrationForm(request.form)
@@ -43,14 +44,14 @@ def register():
       username = form.username.data
       password = sha256_crypt.encrypt((str(form.password.data)))
 
-      db_username = cur.execute("SELECT * FROM User WHERE username = %s", (username))
+      db_username = cur.execute("SELECT * FROM User WHERE username = %s", [username])
 
       if int(db_username) > 0:
         flash("That usename already exists!")
         return render_template("register.html", form=form)
 
       else:
-        cur.execute("INSERT INTO User(username, encryptedPassword) VALUES (%s, %s)", (username, password))
+        cur.execute("INSERT INTO User(username, encryptedPassword) VALUES (%s, %s)", [username, password])
         conn.commit()
         flash("Thanks for registering!")
         gc.collect()
