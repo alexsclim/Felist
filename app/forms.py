@@ -1,5 +1,5 @@
 from flask_wtf   import Form, validators
-from wtforms.fields import TextField, TextAreaField, SubmitField, PasswordField
+from wtforms.fields import TextField, TextAreaField, SubmitField, PasswordField, DecimalField
 import wtforms
 
 class ContactForm(Form):
@@ -22,3 +22,10 @@ class LoginForm(Form):
   username = TextField('Username')
   password = PasswordField('New Password')
   submit = SubmitField("Login")
+
+class CreateTeamForm(Form):
+  name = TextField('Team Name', [wtforms.validators.Length(min=1, max=50)])
+  practice_cost = DecimalField('Yearly Practice Cost')
+  city = TextField('City', [wtforms.validators.Length(min=1)])
+  province = TextField('Province', [wtforms.validators.Length(min=1)])
+  submit = SubmitField("Create")
