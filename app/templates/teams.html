@@ -16,7 +16,11 @@
     <tbody>
         {% for row in rows %}
         	<tr>
-        		<td>{{row["teamId"]}}</td>
+        		<td>
+                   <form action="" method="post">
+                        <input type="submit" name="team" value={{row["teamId"]}}></input>
+                    </form>
+                </td>
         		<td>{{row["name"]}}</td>
         		<td>{{row["practiceCost"]}}</td>
         		<td>{{row["username"]}}</td>

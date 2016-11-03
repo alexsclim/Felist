@@ -27,14 +27,33 @@ def debug():
   print last_id
   return render_template('dashboard.html')
 
-@app.route('/teams')
+@app.route('/teams', methods=['GET', 'POST'])
 @login_required
 def teams():
+
   cur = mysql.connection.cursor()
+
+  if request.method == "POST":
+    teamId = request.form['team']
+
+    cur.execute("SELECT * from Member where teamId =%s", [teamId])
+    rows = cur.fetchall();
+
+    return render_template('members.html', rows=rows)
+
   cur.execute("SELECT * from Team")
 
   rows = cur.fetchall();
   return render_template('teams.html', rows=rows)
+
+@app.route('/members')
+@login_required
+def members():
+  cur = mysql.connection.cursor()
+  cur.execute("SELECT * from Member")
+
+  rows = cur.fetchall();
+  return render_template('members.html', rows=rows)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
