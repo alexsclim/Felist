@@ -4,7 +4,6 @@ from functools import wraps
 from forms import ContactForm, RegistrationForm, LoginForm
 from flask_mail import Message
 from passlib.hash import sha256_crypt
-from flask_table import Table, Col
 
 import gc
 
@@ -37,6 +36,7 @@ def teams():
   cur.execute("SELECT * from Team")
 
   rows = cur.fetchall();
+<<<<<<< HEAD
 
   class ItemTable(Table):
     classes = ['table', 'table-striped', 'table-bordered', 'table-hover']
@@ -61,6 +61,10 @@ def teams():
   table = ItemTable(rows)
 
   return render_template('teams.html', table=table)
+=======
+  print rows
+  return render_template('teams.html', rows=rows)
+>>>>>>> parent of 8075300... using flask-table
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
