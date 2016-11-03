@@ -24,7 +24,8 @@ def debug():
   db_username = cur.execute("SELECT * FROM User")
   print ('Hello')
   print db_username
-  print json.dumps(cur.fetchall()[0])
+  print json.dumps(cur.fetchall()[0]['username'])
+  print
   return render_template('login.html')
 
 @app.route('/teams')
