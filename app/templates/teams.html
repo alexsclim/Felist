@@ -2,29 +2,6 @@
 {% block body %}
 <div class="container">
   <h2>Dragonboat Teams</h2>
-  <table class="table table-striped table-bordered">
-    <thead>
-      <tr>
-        <th>teamId</th>
-        <th>name</th>
-        <th>practiceCost</th>
-        <th>userId</th>
-        <th>regionCity</th>
-        <th>regionProvince</th>
-      </tr>
-    </thead>
-    <tbody>
-        {% for row in rows %}
-        	<tr>
-        		<td>{{row["teamId"]}}</td>
-        		<td>{{row["name"]}}</td>
-        		<td>{{row["practiceCost"]}}</td>
-        		<td>{{row["username"]}}</td>
-        		<td>{{row["regionCity"]}}</td>
-        		<td>{{row["regionProvince"]}}</td>
-        	</tr>
-        {% endfor %}
-    </tbody>
-  </table>
+    {{table}}
 </div>
 {% endblock %}
