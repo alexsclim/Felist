@@ -57,6 +57,10 @@ VALUES
 INSERT INTO Member
 VALUES
 (2, 'Clarence', 130.80, 5.8, 'paddler', 'left', '1995-09-20', 1);
+INSERT INTO Member
+VALUES
+(3, 'Felix', 140.90, 5.9, 'paddler', 'right', '1995-11-20', 2);
+
 
 INSERT INTO PracticeTeam
 VALUES
