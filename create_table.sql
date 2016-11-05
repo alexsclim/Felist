@@ -7,13 +7,18 @@ CREATE TABLE IF NOT EXISTS Region(
     PRIMARY KEY(city, province)
 );
 
-CREATE TABLE IF NOT EXISTS RegattaDetails(
+CREATE TABLE IF NOT EXISTS Regatta(
   regattaId int,
+  raceLength int,
   name char(40),
   location char(30),
-  raceLength int,
   raceDate date,
-  PRIMARY KEY(regattaId)
+  regionCity char(50) NOT NULL,
+  regionProvince char(50) NOT NULL,
+  PRIMARY KEY(regattaId),
+  FOREIGN KEY(regionCity, regionProvince) REFERENCES Region(city, province)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
 );
 
 CREATE TABLE IF NOT EXISTS User(
@@ -22,124 +27,73 @@ CREATE TABLE IF NOT EXISTS User(
   PRIMARY KEY(username)
 );
 
-CREATE TABLE IF NOT EXISTS RegattaLocation(
-  location char(30),
+CREATE TABLE IF NOT EXISTS Team(
+  teamId int,
+  name char(50),
+  practiceCost decimal,
+  username char(20) NOT NULL,
   regionCity char(50) NOT NULL,
   regionProvince char(50) NOT NULL,
-  regattaId int,
-  PRIMARY KEY(location),
-  FOREIGN KEY(regattaId) REFERENCES RegattaDetails(regattaId)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
+  PRIMARY KEY(teamId),
+  FOREIGN KEY(username) REFERENCES user(username)
+      ON DELETE NO ACTION
+      ON UPDATE CASCADE,
   FOREIGN KEY(regionCity, regionProvince) REFERENCES Region(city, province)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION
-);
-
-
-CREATE TABLE IF NOT EXISTS Team(
-    teamId int,
-    name char(50),
-    practiceCost decimal,
-    username char(20) NOT NULL,
-    regionCity char(50) NOT NULL,
-    regionProvince char(50) NOT NULL,
-    PRIMARY KEY(teamId),
-    FOREIGN KEY(username) REFERENCES user(username)
-        ON DELETE NO ACTION
-        ON UPDATE CASCADE,
-    FOREIGN KEY(regionCity, regionProvince) REFERENCES Region(city, province)
-        ON DELETE NO ACTION
-        ON UPDATE CASCADE
+      ON DELETE NO ACTION
+      ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Member(
-    memberId int,
-    memberName char(30),
-    weight float,
-    height float,
-    role char(20),
-    paddleSide char(10),
-    dateOfBirth date,
-    teamId int NOT NULL,
-    PRIMARY KEY(memberId),
-    FOREIGN KEY(teamId) REFERENCES Team(teamId)
-        ON DELETE NO ACTION
-        ON UPDATE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS PracticeTeam(
-  teamId int,
-  practiceId int,
-  PRIMARY KEY(practiceId),
+  memberId int,
+  memberName char(30),
+  weight float,
+  height float,
+  role char(20),
+  paddleSide char(10),
+  dateOfBirth date,
+  teamId int NOT NULL,
+  PRIMARY KEY(memberId),
   FOREIGN KEY(teamId) REFERENCES Team(teamId)
-    ON DELETE CASCADE
+    ON DELETE NO ACTION
     ON UPDATE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS PracticeLocation(
-  teamId int,
-  location char(50),
-  PRIMARY KEY(teamId),
-  FOREIGN KEY(teamId) REFERENCES PracticeTeam(teamId)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS PracticeTime(
+CREATE TABLE IF NOT EXISTS HasPractice(
   practiceId int,
   dayOfWeek char(10),
+  location char(50),
   startTime time,
   duration int,
-  PRIMARY KEY(practiceId),
-  FOREIGN KEY(practiceId) REFERENCES PracticeTeam(practiceId)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS ResultReference(
-  regattaId int,
   teamId int,
-  resultId int,
-  PRIMARY KEY(resultId, teamId),
+  PRIMARY KEY(practiceId, teamId),
   FOREIGN KEY(teamId) REFERENCES Team(teamId)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE,
-  FOREIGN KEY(regattaId) REFERENCES RegattaDetails(regattaId)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS ResultDetails(
+CREATE TABLE IF NOT EXISTS RaceResult(
   resultId int,
-  teamId int,
   ranking int,
   timeSeconds decimal,
-  PRIMARY KEY (resultId, teamId),
-  FOREIGN KEY (resultId, teamId) REFERENCES ResultReference(resultId, teamId)
+  regattaId int NOT NULL,
+  teamId int,
+  PRIMARY KEY(teamId, resultId),
+  FOREIGN KEY(regattaId) REFERENCES Regatta(regattaId)
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  FOREIGN KEY(teamId) REFERENCES Team(teamId)
+    ON DELETE NO ACTION
     ON UPDATE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS PaddleSize(
+CREATE TABLE IF NOT EXISTS PaddleOwns(
   memberId int,
-  brand char(15),
+  brand char(20),
+  type char(20),
   size int,
+  colour char(15),
   PRIMARY KEY(memberId, brand),
   FOREIGN KEY(memberId) REFERENCES Member(memberId)
     ON UPDATE CASCADE
     ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS PaddleDetails(
-  memberId int,
-  brand char(15),
-  type char(20),
-  colour char(15),
-  PRIMARY KEY(memberId, brand),
-  FOREIGN KEY(memberId, brand) REFERENCES PaddleSize(memberId, brand)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Participates(
@@ -147,5 +101,5 @@ CREATE TABLE IF NOT EXISTS Participates(
     regattaId int,
     PRIMARY KEY(teamId, regattaId),
     FOREIGN KEY(teamId) REFERENCES Team(teamId),
-    FOREIGN KEY(regattaId) REFERENCES RegattaDetails(regattaId)
+    FOREIGN KEY(regattaId) REFERENCES Regatta(regattaId)
 );
