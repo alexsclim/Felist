@@ -3,7 +3,7 @@ from flask import Flask, render_template, redirect, url_for, request, flash, ses
 from functools import wraps
 from forms import ContactForm, RegistrationForm, LoginForm, CreateTeamForm
 from flask_mail import Message
-from passlib.hash import sha256_crypt
+from werkzeug.security import generate_password_hash, check_password_hash
 
 import gc
 
@@ -67,13 +67,14 @@ def register():
       password = form.password.data
 
       db_username = cur.execute("SELECT * FROM User WHERE username = %s", [username])
+      hashed_password = generate_password_hash(password)
 
       if int(db_username) > 0:
         flash("That usename already exists!")
         return render_template("register.html", form=form)
 
       else:
-        cur.execute("INSERT INTO User(username, encryptedPassword) VALUES (%s, %s)", [username, password])
+        cur.execute("INSERT INTO User(username, encryptedPassword) VALUES (%s, %s)", [username, hashed_password])
         conn.commit()
         flash("Thanks for registering!")
         gc.collect()
@@ -102,9 +103,10 @@ def login():
         password = form.password.data
 
         db_username = cur.execute("SELECT * FROM User WHERE username= %s", [username])
-        db_password = cur.execute("SELECT * FROM User WHERE username= %s and encryptedpassword=%s", [username, password])
+        hashed_password = cur.fetchall()[0]['encryptedPassword']
+
         if int(db_username) > 0:
-          if int(db_password) > 0:
+          if check_password_hash(hashed_password, password):
             session['username'] = username
             return redirect(url_for('dashboard'))
           else:
@@ -129,7 +131,6 @@ def dashboard():
   cur.execute("SELECT name FROM Team WHERE username= %s", [current_user])
 
   teams = cur.fetchall()
-  print teams[0]
   return render_template('dashboard.html', teams=teams, success=True)
 
 @app.route('/contact', methods=['GET', 'POST'])
