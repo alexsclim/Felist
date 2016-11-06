@@ -45,3 +45,10 @@ class QueryService:
     data = self.cursor.execute("INSERT INTO Team(teamId, name, practiceCost, username, regionCity, regionProvince) VALUES (%s, %s, %s, %s, %s, %s)", [team_id, team_name, practice_cost, username, city, province])
     conn.commit()
     return
+
+  def search_teams(self, search):
+    sql = 'Select * from Team where name like %s'
+    args = ['%'+search+'%']
+    data = self.cursor.execute(sql, args)
+    teams = self.cursor.fetchall()
+    return teams

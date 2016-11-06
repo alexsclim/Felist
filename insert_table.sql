@@ -29,17 +29,17 @@ VALUES
 
 INSERT INTO User
 VALUES
-('admin', 'admin');
+('admin', 'pbkdf2:sha1:1000$gGjiBSaM$167a06ab6bf0616ca26af78f75c16d21e9fd46e9'); -- password: admin
 INSERT INTO User
 VALUES
-('felix', 'tso');
+('user', 'pbkdf2:sha1:1000$xdwaXArt$a8c041f472a31f5929e1aa3f0a9881134ff5dee3'); -- password: pass
 
 INSERT INTO Team
 VALUES
 (1, 'DragonHearts Reborn', 234.80, 'admin', 'Vancouver', 'British Columbia');
 INSERT INTO Team
 VALUES
-(2, 'DragonHearts ThunderBreakers', 1000.80, 'felix', 'Vancouver', 'British Columbia');
+(2, 'DragonHearts ThunderBreakers', 1000.80, 'user', 'Vancouver', 'British Columbia');
 
 INSERT INTO Member
 VALUES

@@ -35,10 +35,18 @@ def teams():
   query_service = QueryService(cur)
 
   if request.method == "POST":
-    team_id = request.form['team']
-    members = query_service.get_members_from_team(team_id)
+    if 'Search Team' in request.form.values():
+      search = request.form['search-input']
+      teams = query_service.search_teams(search)
+
+      return render_template('teams.html', teams=teams)
+
+    else:
+      team_id = request.form['team']
+      members = query_service.get_members_from_team(team_id)
 
     return render_template('members.html', members=members)
+
   else:
     teams = query_service.get_teams()
 
