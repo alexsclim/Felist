@@ -16,18 +16,18 @@
       </tr>
     </thead>
     <tbody>
-        {% for row in rows %}
-        	<tr>
-        		<td>{{row["memberId"]}}</td>
-        		<td>{{row["memberName"]}}</td>
-        		<td>{{row["weight"]}}</td>
-        		<td>{{row["height"]}}</td>
-        		<td>{{row["role"]}}</td>
-        		<td>{{row["paddleSide"]}}</td>
-                <td>{{row["dateOfBirth"]}}</td>
-                <td>{{row["teamId"]}}</td>
-        	</tr>
-        {% endfor %}
+      {% for member in members %}
+      	<tr>
+      		<td>{{member["memberId"]}}</td>
+      		<td>{{member["memberName"]}}</td>
+      		<td>{{member["weight"]}}</td>
+      		<td>{{member["height"]}}</td>
+      		<td>{{member["role"]}}</td>
+      		<td>{{member["paddleSide"]}}</td>
+          <td>{{member["dateOfBirth"]}}</td>
+          <td>{{member["teamId"]}}</td>
+      	</tr>
+      {% endfor %}
     </tbody>
   </table>
 </div>
