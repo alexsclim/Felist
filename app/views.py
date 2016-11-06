@@ -34,12 +34,23 @@ def teams():
   cur = mysql.connection.cursor()
 
   if request.method == "POST":
-    teamId = request.form['team']
+    if 'Search Team' in request.form.values():
+      search = request.form['search-input']
 
-    cur.execute("SELECT * from Member where teamId =%s", [teamId])
-    rows = cur.fetchall();
+      sql = 'Select * from Team where name like %s'
+      args = ['%'+search+'%']
+      cur.execute(sql, args)
 
-    return render_template('members.html', rows=rows)
+      rows = cur.fetchall();
+      return render_template('teams.html', rows=rows)
+
+    else:
+      teamId = request.form['team']
+
+      cur.execute("SELECT * from Member where teamId =%s", [teamId])
+      rows = cur.fetchall();
+
+      return render_template('members.html', rows=rows)
 
   cur.execute("SELECT * from Team")
 
