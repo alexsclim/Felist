@@ -1,10 +1,10 @@
 from flask import Flask
 from flask_mysqldb import MySQL
-from flask_mail import Message, Mail
-from flask import render_template, request
+from flask_mail import Mail
 
 mail = Mail()
 app = Flask(__name__)
+app.secret_key = 'development key'
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
