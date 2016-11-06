@@ -17,15 +17,15 @@ INSERT INTO Region
 VALUES
 ('Tsuen Wan', 'Hong Kong');
 
-INSERT INTO RegattaDetails
+INSERT INTO Regatta
 VALUES
-(1, 'Concord Pacific', 'False Creek', 500, '2017-04-20');
-INSERT INTO RegattaDetails
+(1, 500, 'Concord Pacific', 'False Creek', '2017-04-20', 'Vancouver', 'British Columbia');
+INSERT INTO Regatta
 VALUES
-(2, 'Harrison', 'Harrison Hot Springs', 500, '2017-07-21');
-INSERT INTO RegattaDetails
+(2, 500, 'Harrison', 'Harrison Hot Springs', '2017-07-21', 'Vancouver', 'British Columbia');
+INSERT INTO Regatta
 VALUES
-(3, 'Steveson', 'Steveson Village', 500, '2017-08-22');
+(3, 500, 'Steveson', 'Steveson Village', '2017-08-22', 'Richmond', 'British Columbia');
 
 INSERT INTO User
 VALUES
@@ -33,16 +33,6 @@ VALUES
 INSERT INTO User
 VALUES
 ('felix', 'tso');
-
-INSERT INTO RegattaLocation
-VALUES
-('False Creek', 'Vancouver', 'British Columbia', 1);
-INSERT INTO RegattaLocation
-VALUES
-('Harrison Hot Springs', 'Harrison', 'British Columbia', 2);
-INSERT INTO RegattaLocation
-VALUES
-('Steveson Village', 'Richmond', 'British Columbia', 3);
 
 INSERT INTO Team
 VALUES
@@ -62,54 +52,29 @@ VALUES
 (3, 'Felix', 140.90, 5.9, 'paddler', 'right', '1995-11-20', 2);
 
 
-INSERT INTO PracticeTeam
+INSERT INTO HasPractice
 VALUES
-(1, 1);
-INSERT INTO PracticeTeam
+(1, 'Monday', 'False Creek', '19:00', 2, 1);
+INSERT INTO HasPractice
 VALUES
-(2, 2);
+(2, 'Tuesday', 'Creekside', '20:00', 2, 2);
+INSERT INTO HasPractice
+VALUES
+(3, 'Friday', 'Creekside', '19:00', 2, 2);
 
-INSERT INTO PracticeLocation
+INSERT INTO RaceResult
 VALUES
-(1, 'Creekside Community Centre');
-INSERT INTO PracticeLocation
+(1, 1, 2.03, 1, 1);
+INSERT INTO RaceResult
 VALUES
-(2, 'False Creek Community Centre');
+(2, 2, 2.13, 1, 2);
 
-INSERT INTO PracticeTime
+INSERT INTO PaddleOwns
 VALUES
-(1, 'Monday', '19:00', 2);
-INSERT INTO PracticeTime
+(1, 'Burnwater', 'Trivium', 49, 'Blue');
+INSERT INTO PaddleOwns
 VALUES
-(2, 'Friday', '20:00', 2);
-
-INSERT INTO ResultReference
-VALUES
-(1, 1, 1);
-INSERT INTO ResultReference
-VALUES
-(1, 2, 2);
-
-INSERT INTO ResultDetails
-VALUES
-(1, 1, 1, 2.03);
-INSERT INTO ResultDetails
-VALUES
-(2, 2, 2, 2.13);
-
-INSERT INTO PaddleSize
-VALUES
-(1, 'Burnwater', 49);
-INSERT INTO PaddleSize
-VALUES
-(2, 'Wood', 50);
-
-INSERT INTO PaddleDetails
-VALUES
-(1, 'Burnwater', 'Trivium', 'Blue');
-INSERT INTO PaddleDetails
-VALUES
-(2, 'Wood', 'Woodlyfe', 'Brown');
+(2, 'Wood', 'Woodlyft', 50, 'Brown');
 
 INSERT INTO Participates
 VALUES
