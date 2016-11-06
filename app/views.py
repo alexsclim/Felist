@@ -103,9 +103,9 @@ def login():
         password = form.password.data
 
         db_username = cur.execute("SELECT * FROM User WHERE username= %s", [username])
-        hashed_password = cur.fetchall()[0]['encryptedPassword']
 
         if int(db_username) > 0:
+          hashed_password = cur.fetchall()[0]['encryptedPassword']
           if check_password_hash(hashed_password, password):
             session['username'] = username
             return redirect(url_for('dashboard'))
