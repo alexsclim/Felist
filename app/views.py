@@ -1,15 +1,11 @@
-from app import app, mail
+from app import app, mail, mysql
 from flask import Flask, render_template, redirect, url_for, request, flash, session, json
-from functools import wraps
 from forms import ContactForm, RegistrationForm, LoginForm, CreateTeamForm
 from flask_mail import Message
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from query_service import QueryService
+from functools import wraps
 import gc
-
-from app import mysql
-
-app.secret_key = 'development key'
 
 def login_required(f):
   @wraps(f)
@@ -22,43 +18,45 @@ def login_required(f):
 @app.route('/debug', methods=['GET'])
 def debug():
   cur = mysql.connection.cursor()
-  last_id = cur.execute("SELECT * From Team")
-  print session
-  print last_id
   return render_template('dashboard.html')
+
+@app.route('/', methods=['GET'])
+def index():
+  if session['logged_in'] == True:
+    return redirect(url_for('dashboard'))
+  else:
+    return redirect(url_for('login'))
 
 @app.route('/teams', methods=['GET', 'POST'])
 @login_required
 def teams():
 
   cur = mysql.connection.cursor()
+  query_service = QueryService(cur)
 
   if request.method == "POST":
-    teamId = request.form['team']
+    team_id = request.form['team']
+    members = query_service.get_members_from_team(team_id)
 
-    cur.execute("SELECT * from Member where teamId =%s", [teamId])
-    rows = cur.fetchall();
+    return render_template('members.html', members=members)
+  else:
+    teams = query_service.get_teams()
 
-    return render_template('members.html', rows=rows)
-
-  cur.execute("SELECT * from Team")
-
-  rows = cur.fetchall();
-  return render_template('teams.html', rows=rows)
+    return render_template('teams.html', teams=teams)
 
 @app.route('/members')
 @login_required
 def members():
   cur = mysql.connection.cursor()
-  cur.execute("SELECT * from Member")
-
-  rows = cur.fetchall();
-  return render_template('members.html', rows=rows)
+  query_service = QueryService(cur)
+  members = query_service.get_members()
+  return render_template('members.html', members=members)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
   conn = mysql.connection
   cur = conn.cursor()
+  query_service = QueryService(cur)
   try:
     form = RegistrationForm(request.form)
 
@@ -66,16 +64,14 @@ def register():
       username = form.username.data
       password = form.password.data
 
-      db_username = cur.execute("SELECT * FROM User WHERE username = %s", [username])
+      db_username = query_service.username_exists(username)
       hashed_password = generate_password_hash(password)
 
       if int(db_username) > 0:
         flash("That usename already exists!")
         return render_template("register.html", form=form)
-
       else:
-        cur.execute("INSERT INTO User(username, encryptedPassword) VALUES (%s, %s)", [username, hashed_password])
-        conn.commit()
+        query_service.create_user(conn, username, hashed_password)
         flash("Thanks for registering!")
         gc.collect()
 
@@ -89,24 +85,24 @@ def register():
   except Exception as e:
     return(str(e))
 
-@app.route('/', methods=['GET'])
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     conn = mysql.connection
     cur = conn.cursor()
     error = None
-
     form = LoginForm(request.form)
+    query_service = QueryService(cur)
 
     if request.method == 'POST' and form.validate():
         username = form.username.data
         password = form.password.data
 
-        db_username = cur.execute("SELECT * FROM User WHERE username= %s", [username])
+        db_username = query_service.username_exists(username)
 
         if int(db_username) > 0:
-          hashed_password = cur.fetchall()[0]['encryptedPassword']
+          hashed_password = query_service.get_hashed_password(username)
           if check_password_hash(hashed_password, password):
+            session['logged_in'] = True
             session['username'] = username
             return redirect(url_for('dashboard'))
           else:
@@ -119,19 +115,44 @@ def login():
 @app.route('/logout')
 def logout():
   session.pop('username', None)
+  session.pop('looged_in', False)
   flash("Logout succesful!")
   return redirect(url_for('login'))
 
 @app.route('/dashboard', methods=['GET'])
 @login_required
 def dashboard():
+  cur = mysql.connection.cursor()
+  query_service = QueryService(cur)
+  current_user = session['username']
+  teams = query_service.get_current_user_teams(current_user)
+  return render_template('dashboard.html', teams=teams, success=True)
+
+@app.route('/teams/new', methods=['GET', 'POST'])
+@login_required
+def createteam():
   conn = mysql.connection
   cur = conn.cursor()
-  current_user = session['username']
-  cur.execute("SELECT name FROM Team WHERE username= %s", [current_user])
+  query_service = QueryService(cur)
+  form = CreateTeamForm(request.form)
 
-  teams = cur.fetchall()
-  return render_template('dashboard.html', teams=teams, success=True)
+  if request.method == 'POST' and form.validate():
+    team_name = form.name.data
+    practice_cost = form.practice_cost.data
+    city = form.city.data
+    province = form.province.data
+    username = session['username']
+
+    last_id = query_service.get_last_team_id()
+    team_id = last_id + 1;
+
+    query_service.create_team(conn, team_id, team_name, practice_cost, username, city, province)
+    flash("Team Created!")
+
+    return redirect(url_for('dashboard'))
+
+  elif request.method == 'GET':
+    return render_template('new_team.html', form=form)
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
@@ -153,29 +174,3 @@ def contact():
 
   elif request.method == 'GET':
     return render_template('contact.html', form=form)
-
-@app.route('/teams/new', methods=['GET', 'POST'])
-@login_required
-def createteam():
-  conn = mysql.connection
-  cur = conn.cursor()
-  form = CreateTeamForm(request.form)
-
-  if request.method == 'POST' and form.validate():
-    team_name = form.name.data
-    practice_cost = form.practice_cost.data
-    city = form.city.data
-    province = form.province.data
-    username = session['username']
-
-    last_id = cur.execute("SELECT * From Team")
-    team_id = last_id + 1;
-
-    cur.execute("INSERT INTO Team(teamId, name, practiceCost, username, regionCity, regionProvince) VALUES (%s, %s, %s, %s, %s, %s)", [team_id, team_name, practice_cost, username, city, province])
-    conn.commit()
-    flash("Team Created!")
-
-    return redirect(url_for('dashboard'))
-
-  elif request.method == 'GET':
-    return render_template('new_team.html', form=form)

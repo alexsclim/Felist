@@ -14,20 +14,20 @@
       </tr>
     </thead>
     <tbody>
-        {% for row in rows %}
-        	<tr>
-        		<td>
-                   <form action="" method="post">
-                        <input type="submit" name="team" value={{row["teamId"]}}></input>
-                    </form>
-                </td>
-        		<td>{{row["name"]}}</td>
-        		<td>{{row["practiceCost"]}}</td>
-        		<td>{{row["username"]}}</td>
-        		<td>{{row["regionCity"]}}</td>
-        		<td>{{row["regionProvince"]}}</td>
-        	</tr>
-        {% endfor %}
+      {% for team in teams %}
+      	<tr>
+      		<td>
+             <form action="" method="post">
+                <input type="submit" name="team" value={{team["teamId"]}}></input>
+              </form>
+          </td>
+      		<td>{{team["name"]}}</td>
+      		<td>{{team["practiceCost"]}}</td>
+      		<td>{{team["username"]}}</td>
+      		<td>{{team["regionCity"]}}</td>
+      		<td>{{team["regionProvince"]}}</td>
+      	</tr>
+      {% endfor %}
     </tbody>
   </table>
 </div>
