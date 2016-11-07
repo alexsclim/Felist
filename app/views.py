@@ -43,9 +43,9 @@ def teams():
 
     else:
       team_id = request.form['team']
-      members = query_service.get_members_from_team(team_id)
 
-      return render_template('members.html', members=members)
+      members = query_service.get_members_from_team(team_id)
+      return render_template('members.html', members=members, memberDelete=memberDelete)
 
   else:
     teams = query_service.get_teams()
@@ -60,18 +60,24 @@ def members():
   query_service = QueryService(cur)
 
   if request.method == "POST":
+    teamID = request.form.get("team", "")
+    memberDelete = 'true'
+
     if 'Delete' in request.form.values():
 
-      memberId = request.form.get("member-id")
-
+      memberId = request.form.get("member-id", "")
       query_service.delete_member(conn, memberId)
-      members = query_service.get_members()
 
-      return render_template('members.html', members=members)
+      members = query_service.get_members_from_team(teamID)
+
+      return render_template('members.html', members=members, memberDelete=memberDelete, teamID=teamID)
+    else:
+
+      members = query_service.get_members_from_team(teamID)
+      return render_template('members.html', members=members, memberDelete=memberDelete, teamID=teamID)
 
   else:
     members = query_service.get_members()
-
     return render_template('members.html', members=members)
 
 @app.route('/register', methods=['GET', 'POST'])

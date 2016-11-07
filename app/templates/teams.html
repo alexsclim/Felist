@@ -21,7 +21,7 @@
       {% for team in teams %}
       	<tr>
       		<td>
-              <form action="" method="post">
+              <form action="{{ url_for('members') }}" method="post">
                 <input type="submit" name="team" value={{team["teamId"]}}></input>
               </form>
             </td>

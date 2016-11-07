@@ -50,6 +50,15 @@ VALUES
 INSERT INTO Member
 VALUES
 (3, 'Felix', 140.90, 5.9, 'paddler', 'right', '1995-11-20', 2);
+INSERT INTO Member
+VALUES
+(4, 'Bob', 130.80, 5.8, 'paddler', 'left', '1995-09-20', 1);
+INSERT INTO Member
+VALUES
+(5, 'asd', 130.80, 5.8, 'paddler', 'left', '1995-09-20', 2);
+INSERT INTO Member
+VALUES
+(6, 'wqwe', 130.80, 5.8, 'paddler', 'left', '1995-09-20', 1);
 
 
 INSERT INTO HasPractice
