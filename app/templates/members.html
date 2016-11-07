@@ -26,6 +26,12 @@
       		<td>{{member["paddleSide"]}}</td>
           <td>{{member["dateOfBirth"]}}</td>
           <td>{{member["teamId"]}}</td>
+          <td>
+            <form action="" method="post">
+              <input class="btn btn-primary" type="submit" name="member-delete" value="Delete"></input>
+              <input type="hidden" name="member-id" value={{member["memberId"]}}></input>
+            </form>
+          </td>
       	</tr>
       {% endfor %}
     </tbody>

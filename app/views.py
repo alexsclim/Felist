@@ -45,20 +45,34 @@ def teams():
       team_id = request.form['team']
       members = query_service.get_members_from_team(team_id)
 
-    return render_template('members.html', members=members)
+      return render_template('members.html', members=members)
 
   else:
     teams = query_service.get_teams()
 
     return render_template('teams.html', teams=teams)
 
-@app.route('/members')
+@app.route('/members', methods=['GET', 'POST'])
 @login_required
 def members():
-  cur = mysql.connection.cursor()
+  conn = mysql.connection
+  cur = conn.cursor()
   query_service = QueryService(cur)
-  members = query_service.get_members()
-  return render_template('members.html', members=members)
+
+  if request.method == "POST":
+    if 'Delete' in request.form.values():
+
+      memberId = request.form.get("member-id")
+
+      query_service.delete_member(conn, memberId)
+      members = query_service.get_members()
+
+      return render_template('members.html', members=members)
+
+  else:
+    members = query_service.get_members()
+
+    return render_template('members.html', members=members)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():

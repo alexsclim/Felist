@@ -52,3 +52,8 @@ class QueryService:
     data = self.cursor.execute(sql, args)
     teams = self.cursor.fetchall()
     return teams
+
+  def delete_member(self, conn, memberId):
+    data = self.cursor.execute("Delete from Member WHERE memberId = %s", [memberId])
+    conn.commit()
+    return
