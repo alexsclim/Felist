@@ -223,13 +223,21 @@ def createteam():
     last_id = query_service.get_last_team_id()
     team_id = last_id + 1;
 
-    query_service.create_team(conn, team_id, team_name, practice_cost, username, city, province)
-    flash("Team Created!")
+    try:
+      query_service.create_team(conn, team_id, team_name, practice_cost, username, city, province)
+      flash("Team Created!")
+    except Exception as e:
+      flash("There was an error creating your team.")
+      return redirect(url_for('createteam'))
 
     return redirect(url_for('dashboard'))
 
   elif request.method == 'GET':
     return render_template('new_team.html', form=form)
+
+@app.route('/teams/<int:team_id>')
+def showteam():
+  return render_template('show_team.html')
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
