@@ -1,6 +1,10 @@
 from flask_wtf import Form, validators
-from wtforms.fields import TextField, TextAreaField, SubmitField, PasswordField, DecimalField
+from wtforms.fields import TextField, TextAreaField, SubmitField, PasswordField, DecimalField, SelectField
 import wtforms
+
+province_choices = [('British Columbia', 'British Columbia'), ('Ontario', 'Ontario'), ('Quebec', 'Quebec')]
+city_choices = [('North Vancouver', 'North Vancouver'), ('Vancouver', 'Vancouver'), ('Chilliwack', 'Chilliwack'), ('Kelowna', 'Kelowna'),
+('Harrison', 'Harrison'), ('Richmond', 'Richmond'), ('Toronto', 'Toronto'), ('Montreal', 'Montreal'), ('Victoria', 'Victoria')]
 
 class ContactForm(Form):
   name = TextField("Name",  [wtforms.validators.Required("Please enter your name")])
@@ -26,6 +30,6 @@ class LoginForm(Form):
 class CreateTeamForm(Form):
   name = TextField('Team Name', [wtforms.validators.Length(min=1, max=50)])
   practice_cost = DecimalField('Yearly Practice Cost')
-  city = TextField('City', [wtforms.validators.Length(min=1)])
-  province = TextField('Province', [wtforms.validators.Length(min=1)])
+  city = SelectField('City', choices=city_choices)
+  province = SelectField('Province', choices=province_choices)
   submit = SubmitField("Create")

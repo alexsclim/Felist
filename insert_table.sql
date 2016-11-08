@@ -6,7 +6,10 @@ VALUES
 ('Vancouver', 'British Columbia');
 INSERT INTO Region
 VALUES
-('Washington', 'Seattle');
+('Chilliwack', 'British Columbia');
+INSERT INTO Region
+VALUES
+('Kelowna', 'British Columbia');
 INSERT INTO Region
 VALUES
 ('Harrison', 'British Columbia');
@@ -15,7 +18,13 @@ VALUES
 ('Richmond', 'British Columbia');
 INSERT INTO Region
 VALUES
-('Tsuen Wan', 'Hong Kong');
+('Toronto', 'Ontario');
+INSERT INTO Region
+VALUES
+('Montreal', 'Quebec');
+INSERT INTO Region
+VALUES
+('Victoria', 'British Columbia');
 
 INSERT INTO Regatta
 VALUES
