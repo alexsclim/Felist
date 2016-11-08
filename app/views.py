@@ -27,6 +27,25 @@ def index():
   else:
     return redirect(url_for('dashboard'))
 
+@app.route('/regattas', methods=['GET', 'POST'])
+@login_required
+def regattas():
+
+  cur = mysql.connection.cursor()
+  query_service = QueryService(cur)
+
+  if request.method == "POST":
+    if 'Search Regattas' in request.form.values():
+      search = request.form['search-input']
+      regattas = query_service.search_regattas(search)
+
+      return render_template('regattas.html', regattas=regattas)
+
+  else:
+    regattas = query_service.get_regattas()
+
+    return render_template('regattas.html', regattas=regattas)
+
 @app.route('/teams', methods=['GET', 'POST'])
 @login_required
 def teams():

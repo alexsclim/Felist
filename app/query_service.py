@@ -12,6 +12,11 @@ class QueryService:
     data = self.cursor.execute("SELECT * from Team")
     return data
 
+  def get_regattas(self):
+    data = self.cursor.execute("SELECT * from Regatta")
+    regatta = self.cursor.fetchall()
+    return regatta
+
   def get_teams(self):
     data = self.cursor.execute("SELECT * from Team")
     teams = self.cursor.fetchall()
@@ -46,6 +51,13 @@ class QueryService:
     conn.commit()
     return
 
+  def search_regattas(self, search):
+    sql = 'Select * from Regatta where name like %s'
+    args = ['%'+search+'%']
+    data = self.cursor.execute(sql, args)
+    regattas = self.cursor.fetchall()
+    return regattas
+    
   def search_teams(self, search):
     sql = 'Select * from Team where name like %s'
     args = ['%'+search+'%']

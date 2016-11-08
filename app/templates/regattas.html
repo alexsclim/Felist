@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="container">
+  <h2>Dragonboat Regattas</h2>
+  <form action="" method="post">
+    <input type="input" name="search-input"></input>
+    <input type="submit" name="search-button" value="Search Regattas"></input>
+  </form>
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>regattaId</th>
+        <th>raceLength</th>
+        <th>name</th>
+        <th>location</th>
+        <th>raceDate</th>
+        <th>regionCity</th>
+        <th>regionProvince</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for regatta in regattas %}
+      	<tr>
+      		<td>{{regatta["regattaId"]}}</td>
+      		<td>{{regatta["raceLength"]}}</td>
+          <td>{{regatta["name"]}}</td>
+          <td>{{regatta["location"]}}</td>
+          <td>{{regatta["raceDate"]}}</td>
+      		<td>{{regatta["regionCity"]}}</td>
+      		<td>{{regatta["regionProvince"]}}</td>
+      	</tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
