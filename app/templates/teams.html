@@ -22,7 +22,7 @@
       	<tr>
       		<td>
               <form action="{{ url_for('members') }}" method="post">
-                <input type="submit" name="team" value={{team["teamId"]}}></input>
+                <input class="btn btn-primary" type="submit" name="team" value={{team["teamId"]}}></input>
               </form>
             </td>
       		<td>{{team["name"]}}</td>
