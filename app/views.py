@@ -27,6 +27,25 @@ def index():
   else:
     return redirect(url_for('dashboard'))
 
+@app.route('/regattas', methods=['GET', 'POST'])
+@login_required
+def regattas():
+
+  cur = mysql.connection.cursor()
+  query_service = QueryService(cur)
+
+  if request.method == "POST":
+    if 'Search Regattas' in request.form.values():
+      search = request.form['search-input']
+      regattas = query_service.search_regattas(search)
+
+      return render_template('regattas.html', regattas=regattas)
+
+  else:
+    regattas = query_service.get_regattas()
+
+    return render_template('regattas.html', regattas=regattas)
+
 @app.route('/teams', methods=['GET', 'POST'])
 @login_required
 def teams():
@@ -61,9 +80,9 @@ def members():
 
   if request.method == "POST":
     teamID = request.form.get("team", "")
-    memberDelete = 'true'
 
     if 'Delete' in request.form.values():
+      memberDelete = 'true'
 
       memberId = request.form.get("member-id", "")
       query_service.delete_member(conn, memberId)
@@ -71,14 +90,44 @@ def members():
       members = query_service.get_members_from_team(teamID)
 
       return render_template('members.html', members=members, memberDelete=memberDelete, teamID=teamID)
+
+
+    if 'Member Name' in request.form.values():
+      if request.form.get("member-delete", "") == 'true':
+        sort = 'asc'
+        sort = request.form.get("member-sort", "")
+        if sort == 'asc':
+          members = query_service.sort_member_names_by_team_asc(teamID)
+          sort = 'desc'
+        else:
+          members = query_service.sort_member_names_by_team_desc(teamID)
+          sort = 'asc'
+
+        memberDelete = 'true'
+        return render_template('members.html', members=members, teamID=teamID, memberDelete=memberDelete, memberSort=sort)
+
+      else:
+        sort = 'asc'
+        sort = request.form.get("member-sort", "")
+        if sort == 'asc':
+          members = query_service.sort_member_names_asc()
+          sort = 'desc'
+        else:
+          members = query_service.sort_member_names_desc()
+          sort = 'asc'
+
+        return render_template('members.html', members=members, teamID=teamID, memberSort=sort)
+
     else:
+      memberDelete = 'true'
 
       members = query_service.get_members_from_team(teamID)
       return render_template('members.html', members=members, memberDelete=memberDelete, teamID=teamID)
 
   else:
+    memberDelete = None
     members = query_service.get_members()
-    return render_template('members.html', members=members)
+    return render_template('members.html', members=members, memberDelete=memberDelete)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():

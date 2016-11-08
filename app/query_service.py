@@ -12,6 +12,11 @@ class QueryService:
     data = self.cursor.execute("SELECT * from Team")
     return data
 
+  def get_regattas(self):
+    data = self.cursor.execute("SELECT * from Regatta")
+    regatta = self.cursor.fetchall()
+    return regatta
+
   def get_teams(self):
     data = self.cursor.execute("SELECT * from Team")
     teams = self.cursor.fetchall()
@@ -46,6 +51,13 @@ class QueryService:
     conn.commit()
     return
 
+  def search_regattas(self, search):
+    sql = 'Select * from Regatta where name like %s'
+    args = ['%'+search+'%']
+    data = self.cursor.execute(sql, args)
+    regattas = self.cursor.fetchall()
+    return regattas
+    
   def search_teams(self, search):
     sql = 'Select * from Team where name like %s'
     args = ['%'+search+'%']
@@ -57,3 +69,23 @@ class QueryService:
     data = self.cursor.execute("Delete from Member WHERE memberId = %s", [memberId])
     conn.commit()
     return
+
+  def sort_member_names_by_team_asc(self, team_id):
+    data = self.cursor.execute("SELECT * from Member where teamId=%s order by memberName asc", [team_id])
+    members = self.cursor.fetchall()
+    return members
+
+  def sort_member_names_asc(self):
+    data = self.cursor.execute("SELECT * from Member order by memberName asc")
+    members = self.cursor.fetchall()
+    return members
+
+  def sort_member_names_by_team_desc(self, team_id):
+    data = self.cursor.execute("SELECT * from Member where teamId=%s order by memberName desc", [team_id])
+    members = self.cursor.fetchall()
+    return members
+
+  def sort_member_names_desc(self):
+    data = self.cursor.execute("SELECT * from Member order by memberName desc")
+    members = self.cursor.fetchall()
+    return members
