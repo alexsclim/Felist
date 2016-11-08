@@ -40,6 +40,16 @@ VALUES
 INSERT INTO Team
 VALUES
 (2, 'DragonHearts ThunderBreakers', 1000.80, 'user', 'Vancouver', 'British Columbia');
+INSERT INTO Team
+VALUES
+(3, 'UBC Lightning', 1000.80, 'admin', 'Vancouver', 'British Columbia');
+INSERT INTO Team
+VALUES
+(4, 'ZY M', 1000.80, 'admin', 'Vancouver', 'British Columbia');
+INSERT INTO Team
+VALUES
+(5, 'Xhibit', 1000.80, 'admin', 'Vancouver', 'British Columbia');
+
 
 INSERT INTO Member
 VALUES
