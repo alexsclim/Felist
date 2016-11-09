@@ -94,3 +94,23 @@ class QueryService:
     data = self.cursor.execute("SELECT * from Member order by memberName desc")
     members = self.cursor.fetchall()
     return members
+
+def sort_paddle_members_asc(self):
+    data = self.cursor.execute("SELECT * from PaddleOwns order by memberId asc")
+    paddles = self.cursor.fetchall()
+    return paddles
+
+def sort_paddle_members_desc(self):
+    data = self.cursor.execute("SELECT * from PaddleOwns order by memberID desc")
+    paddles = self.cursor.fetchall()
+    return paddles
+
+def get_paddles(self):
+    data = self.cursor.execute("SELECT * from PaddleOwns")
+    paddles = self.cursor.fetchall()
+    return paddles
+
+def get_paddles_from_member(self, member_id):
+    data = self.cursor.execute("SELECT * from PaddleOwns where memberID=%s", [member_id])
+    paddles = self.cursor.fetchall()
+    return paddles
