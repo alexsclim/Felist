@@ -4,6 +4,6 @@
   <a href="/teams/new" class="btn btn-primary">Create New Team</a>
   <h3>My Teams</h3>
   {% for team in teams %}
-    <div><a href="">{{ team['name'] }}</a></div>
+    <div><a href="{{ url_for('showteam', team_id=team["teamId"]) }}">{{ team['name'] }}</a></div>
   {% endfor %}
 {% endblock %}

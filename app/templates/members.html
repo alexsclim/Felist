@@ -8,9 +8,8 @@
         <th>#</th>
         <th>
           <form action="{{ url_for('members') }}" method="post">
-            <input type="submit" name="member-name" value="Member Name"></input>
+            <input class="btn btn-primary" type="submit" name="member-name" value="Member Name"></input>
             <input type="hidden" name="team" value={{teamID}}></input>
-            <input type="hidden" name="member-delete" value={{memberDelete}}></input>
             <input type="hidden" name="member-sort" value={{memberSort}}></input>
           </form>
         </th>
@@ -33,16 +32,6 @@
       		<td>{{member["paddleSide"]}}</td>
           <td>{{member["dateOfBirth"]}}</td>
           <td>{{member["teamId"]}}</td>
-          {% if memberDelete %}
-          <td>
-            <form action="{{ url_for('members') }}" method="post">
-              <input class="btn btn-primary" type="submit" name="member-delete" value="Delete"></input>
-              <input type="hidden" name="member-id" value={{member["memberId"]}}></input>
-              <input type="hidden" name="team" value={{teamID}}></input>
-            </form>
-          </td>
-          {% endif %}
-
       	</tr>
       {% endfor %}
     </tbody>

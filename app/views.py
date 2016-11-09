@@ -59,13 +59,6 @@ def teams():
       teams = query_service.search_teams(search)
 
       return render_template('teams.html', teams=teams)
-
-    else:
-      team_id = request.form['team']
-
-      members = query_service.get_members_from_team(team_id)
-      return render_template('members.html', members=members, memberDelete=memberDelete)
-
   else:
     teams = query_service.get_teams()
 
@@ -81,53 +74,33 @@ def members():
   if request.method == "POST":
     teamID = request.form.get("team", "")
 
-    if 'Delete' in request.form.values():
-      memberDelete = 'true'
-
-      memberId = request.form.get("member-id", "")
-      query_service.delete_member(conn, memberId)
-
-      members = query_service.get_members_from_team(teamID)
-
-      return render_template('members.html', members=members, memberDelete=memberDelete, teamID=teamID)
-
-
     if 'Member Name' in request.form.values():
-      if request.form.get("member-delete", "") == 'true':
-        sort = 'asc'
-        sort = request.form.get("member-sort", "")
-        if sort == 'asc':
-          members = query_service.sort_member_names_by_team_asc(teamID)
-          sort = 'desc'
-        else:
-          members = query_service.sort_member_names_by_team_desc(teamID)
-          sort = 'asc'
-
-        memberDelete = 'true'
-        return render_template('members.html', members=members, teamID=teamID, memberDelete=memberDelete, memberSort=sort)
-
+      sort = 'asc'
+      sort = request.form.get("member-sort", "")
+      if sort == 'asc':
+        members = query_service.sort_member_names_asc()
+        sort = 'desc'
       else:
+        members = query_service.sort_member_names_desc()
         sort = 'asc'
-        sort = request.form.get("member-sort", "")
-        if sort == 'asc':
-          members = query_service.sort_member_names_asc()
-          sort = 'desc'
-        else:
-          members = query_service.sort_member_names_desc()
-          sort = 'asc'
 
-        return render_template('members.html', members=members, teamID=teamID, memberSort=sort)
+      return render_template('members.html', members=members, teamID=teamID, memberSort=sort)
 
     else:
-      memberDelete = 'true'
-
       members = query_service.get_members_from_team(teamID)
-      return render_template('members.html', members=members, memberDelete=memberDelete, teamID=teamID)
+      return render_template('members.html', members=members, teamID=teamID)
 
   else:
-    memberDelete = None
     members = query_service.get_members()
-    return render_template('members.html', members=members, memberDelete=memberDelete)
+    return render_template('members.html', members=members)
+
+@app.route('/teams/<team_id>/members/<member_id>/delete', methods=['POST'])
+def delete_member_path(member_id, team_id):
+  conn = mysql.connection
+  cur = conn.cursor()
+  query_service = QueryService(cur)
+  query_service.delete_member(conn, member_id)
+  return redirect(url_for('showteam', team_id=team_id))
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -203,6 +176,7 @@ def dashboard():
   query_service = QueryService(cur)
   current_user = session['username']
   teams = query_service.get_current_user_teams(current_user)
+  print teams
   return render_template('dashboard.html', teams=teams, success=True)
 
 @app.route('/teams/new', methods=['GET', 'POST'])
@@ -235,9 +209,14 @@ def createteam():
   elif request.method == 'GET':
     return render_template('new_team.html', form=form)
 
-@app.route('/teams/<int:team_id>')
-def showteam():
-  return render_template('show_team.html')
+@app.route('/teams/<team_id>')
+def showteam(team_id):
+  conn = mysql.connection
+  cur = conn.cursor()
+  query_service = QueryService(cur)
+  members = query_service.get_members_from_team(team_id)
+  team = query_service.get_team_by_id(team_id)[0]
+  return render_template('show_team.html', members=members, team=team)
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
