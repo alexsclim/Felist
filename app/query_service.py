@@ -22,6 +22,11 @@ class QueryService:
     teams = self.cursor.fetchall()
     return teams
 
+  def get_team_by_id(self, team_id):
+    data = self.cursor.execute("SELECT * FROM Team WHERE teamId=%s", [team_id])
+    team = self.cursor.fetchall()
+    return team
+
   def get_members(self):
     data = self.cursor.execute("SELECT * from Member")
     members = self.cursor.fetchall()
@@ -42,7 +47,7 @@ class QueryService:
     return
 
   def get_current_user_teams(self, username):
-    data = self.cursor.execute("SELECT name FROM Team WHERE username= %s", [username])
+    data = self.cursor.execute("SELECT * FROM Team WHERE username= %s", [username])
     teams = self.cursor.fetchall()
     return teams
 
@@ -57,7 +62,7 @@ class QueryService:
     data = self.cursor.execute(sql, args)
     regattas = self.cursor.fetchall()
     return regattas
-    
+
   def search_teams(self, search):
     sql = 'Select * from Team where name like %s'
     args = ['%'+search+'%']
