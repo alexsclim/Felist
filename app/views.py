@@ -176,7 +176,6 @@ def dashboard():
   query_service = QueryService(cur)
   current_user = session['username']
   teams = query_service.get_current_user_teams(current_user)
-  print teams
   return render_template('dashboard.html', teams=teams, success=True)
 
 @app.route('/teams/new', methods=['GET', 'POST'])
