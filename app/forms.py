@@ -14,22 +14,22 @@ class ContactForm(Form):
   submit = SubmitField("Send")
 
 class RegistrationForm(Form):
-  username = TextField('Username', [wtforms.validators.Length(min=4, max=20)])
+  username = TextField('Username', [wtforms.validators.Required("Pleaser enter a username"), wtforms.validators.Length(min=4, max=20)])
   password = PasswordField('New Password', [
-      wtforms.validators.Required(),
+      wtforms.validators.Required("Please enter a password"),
       wtforms.validators.EqualTo('confirm', message='Passwords must match')
   ])
   confirm = PasswordField('Repeat Password')
   submit = SubmitField("Register")
 
 class LoginForm(Form):
-  username = TextField('Username')
-  password = PasswordField('New Password')
+  username = TextField('Username', [wtforms.validators.Required("Please enter a username")])
+  password = PasswordField('New Password', [wtforms.validators.Required("Please enter a password")])
   submit = SubmitField("Login")
 
 class CreateTeamForm(Form):
-  name = TextField('Team Name', [wtforms.validators.Length(min=1, max=50)])
-  practice_cost = DecimalField('Yearly Practice Cost')
-  city = SelectField('City', choices=city_choices)
-  province = SelectField('Province', choices=province_choices)
+  name = TextField('Team Name', [wtforms.validators.Required("Please enter a team name"), wtforms.validators.Length(min=1, max=50)])
+  practice_cost = DecimalField('Yearly Practice Cost', [wtforms.validators.Required("Please enter a cost"), wtforms.validators.NumberRange(min=1, max=10000)])
+  city = SelectField('City', [wtforms.validators.Required("Please enter a city")], choices=city_choices)
+  province = SelectField('Province', [wtforms.validators.Required("Please enter a province")], choices=province_choices)
   submit = SubmitField("Create")
