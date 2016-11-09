@@ -102,6 +102,10 @@ def delete_member_path(member_id, team_id):
   query_service.delete_member(conn, member_id)
   return redirect(url_for('showteam', team_id=team_id))
 
+@app.route('/members/new')
+def add_member():
+  return render_template('member_new.html')
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
   conn = mysql.connection
