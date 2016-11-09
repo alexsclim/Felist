@@ -3,6 +3,7 @@
 <div class="container">
   <h1>{{ team['name'] }}</h1>
   <h2>Dragonboat Members</h2>
+  <a href="{{ url_for('add_member', team_id=team['teamId']) }}" class="btn btn-primary">Add Member</a>
   <table class="table table-striped table-bordered">
     <thead>
       <tr>
