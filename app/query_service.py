@@ -114,3 +114,8 @@ def get_paddles_from_member(self, member_id):
     data = self.cursor.execute("SELECT * from PaddleOwns where memberID=%s", [member_id])
     paddles = self.cursor.fetchall()
     return paddles
+
+def get_member_from_id(self, member_id):
+    data = self.cursor.execute("SELECT * from Member where memberID=%s", [member_id])
+    member = self.cursor.fetchall()
+    return member

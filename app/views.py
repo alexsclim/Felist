@@ -248,12 +248,12 @@ def showteam(team_id):
   return render_template('show_team.html', members=members, team=team)
 
 @app.route('/members/<member_id>')
-def showownedPaddles(member_id):
+def showMemberDetails(member_id):
     conn = mysql.connection
     cur = conn.cursor()
     query_service = QueryService(cur)
     paddles = query_service.get_paddles_from_member(member_id)
-    member = query_service.get_members_from_team(team_id)
+    member = query_service.get_members_from_id(team_id)
     return render_template('show_member.html', paddles=paddles, member=member)
 
 
