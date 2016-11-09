@@ -213,7 +213,10 @@ def createteam():
   query_service = QueryService(cur)
   form = CreateTeamForm(request.form)
 
-  if request.method == 'POST' and form.validate():
+  if request.method == 'POST':
+    if form.validate() == False:
+      error = "You have not inputted correct data"
+      return render_template('new_team.html', form=form, error=error)
     team_name = form.name.data
     practice_cost = form.practice_cost.data
     city = form.city.data
@@ -233,6 +236,7 @@ def createteam():
     return redirect(url_for('dashboard'))
 
   elif request.method == 'GET':
+    print "HIHI"
     return render_template('new_team.html', form=form)
 
 @app.route('/teams/<team_id>')
