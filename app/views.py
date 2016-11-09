@@ -59,13 +59,6 @@ def teams():
       teams = query_service.search_teams(search)
 
       return render_template('teams.html', teams=teams)
-
-    else:
-      team_id = request.form['team']
-
-      members = query_service.get_members_from_team(team_id)
-      return render_template('members.html', members=members, memberDelete=memberDelete)
-
   else:
     teams = query_service.get_teams()
 
@@ -80,24 +73,34 @@ def members():
 
   if request.method == "POST":
     teamID = request.form.get("team", "")
-    memberDelete = 'true'
 
-    if 'Delete' in request.form.values():
+    if 'Member Name' in request.form.values():
+      sort = 'asc'
+      sort = request.form.get("member-sort", "")
+      if sort == 'asc':
+        members = query_service.sort_member_names_asc()
+        sort = 'desc'
+      else:
+        members = query_service.sort_member_names_desc()
+        sort = 'asc'
 
-      memberId = request.form.get("member-id", "")
-      query_service.delete_member(conn, memberId)
+      return render_template('members.html', members=members, teamID=teamID, memberSort=sort)
 
-      members = query_service.get_members_from_team(teamID)
-
-      return render_template('members.html', members=members, memberDelete=memberDelete, teamID=teamID)
     else:
-
       members = query_service.get_members_from_team(teamID)
-      return render_template('members.html', members=members, memberDelete=memberDelete, teamID=teamID)
+      return render_template('members.html', members=members, teamID=teamID)
 
   else:
     members = query_service.get_members()
     return render_template('members.html', members=members)
+
+@app.route('/teams/<team_id>/members/<member_id>/delete', methods=['POST'])
+def delete_member_path(member_id, team_id):
+  conn = mysql.connection
+  cur = conn.cursor()
+  query_service = QueryService(cur)
+  query_service.delete_member(conn, member_id)
+  return redirect(url_for('showteam', team_id=team_id))
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -193,13 +196,26 @@ def createteam():
     last_id = query_service.get_last_team_id()
     team_id = last_id + 1;
 
-    query_service.create_team(conn, team_id, team_name, practice_cost, username, city, province)
-    flash("Team Created!")
+    try:
+      query_service.create_team(conn, team_id, team_name, practice_cost, username, city, province)
+      flash("Team Created!")
+    except Exception as e:
+      flash("There was an error creating your team.")
+      return redirect(url_for('createteam'))
 
     return redirect(url_for('dashboard'))
 
   elif request.method == 'GET':
     return render_template('new_team.html', form=form)
+
+@app.route('/teams/<team_id>')
+def showteam(team_id):
+  conn = mysql.connection
+  cur = conn.cursor()
+  query_service = QueryService(cur)
+  members = query_service.get_members_from_team(team_id)
+  team = query_service.get_team_by_id(team_id)[0]
+  return render_template('show_team.html', members=members, team=team)
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():

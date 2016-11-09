@@ -6,7 +6,10 @@ VALUES
 ('Vancouver', 'British Columbia');
 INSERT INTO Region
 VALUES
-('Washington', 'Seattle');
+('Chilliwack', 'British Columbia');
+INSERT INTO Region
+VALUES
+('Kelowna', 'British Columbia');
 INSERT INTO Region
 VALUES
 ('Harrison', 'British Columbia');
@@ -15,7 +18,13 @@ VALUES
 ('Richmond', 'British Columbia');
 INSERT INTO Region
 VALUES
-('Tsuen Wan', 'Hong Kong');
+('Toronto', 'Ontario');
+INSERT INTO Region
+VALUES
+('Montreal', 'Quebec');
+INSERT INTO Region
+VALUES
+('Victoria', 'British Columbia');
 
 INSERT INTO Regatta
 VALUES
@@ -40,6 +49,16 @@ VALUES
 INSERT INTO Team
 VALUES
 (2, 'DragonHearts ThunderBreakers', 1000.80, 'user', 'Vancouver', 'British Columbia');
+INSERT INTO Team
+VALUES
+(3, 'UBC Lightning', 1000.80, 'admin', 'Vancouver', 'British Columbia');
+INSERT INTO Team
+VALUES
+(4, 'ZY M', 1000.80, 'admin', 'Vancouver', 'British Columbia');
+INSERT INTO Team
+VALUES
+(5, 'Xhibit', 1000.80, 'admin', 'Vancouver', 'British Columbia');
+
 
 INSERT INTO Member
 VALUES
