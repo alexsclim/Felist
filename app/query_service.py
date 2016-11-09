@@ -27,6 +27,10 @@ class QueryService:
     team = self.cursor.fetchall()
     return team
 
+  def get_last_member_id(self):
+    data = self.cursor.execute("SELECT * FROM Member")
+    return data
+
   def get_members(self):
     data = self.cursor.execute("SELECT * from Member")
     members = self.cursor.fetchall()
@@ -53,6 +57,11 @@ class QueryService:
 
   def create_team(self, conn, team_id, team_name, practice_cost, username, city, province):
     data = self.cursor.execute("INSERT INTO Team(teamId, name, practiceCost, username, regionCity, regionProvince) VALUES (%s, %s, %s, %s, %s, %s)", [team_id, team_name, practice_cost, username, city, province])
+    conn.commit()
+    return
+
+  def create_member(self, conn, member_id, name, weight, height, role, paddle_side, date_of_birth, team_id):
+    data = self.cursor.execute("INSERT INTO Member(memberId, memberName, weight, height, role, paddleSide, dateOfBirth, teamId) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", [member_id, name, weight, height, role, paddle_side, date_of_birth, team_id])
     conn.commit()
     return
 

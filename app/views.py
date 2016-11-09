@@ -1,6 +1,6 @@
 from app import app, mail, mysql
 from flask import Flask, render_template, redirect, url_for, request, flash, session, json
-from forms import ContactForm, RegistrationForm, LoginForm, CreateTeamForm
+from forms import ContactForm, RegistrationForm, LoginForm, CreateTeamForm, CreateMemberForm
 from flask_mail import Message
 from werkzeug.security import generate_password_hash, check_password_hash
 from query_service import QueryService
@@ -102,9 +102,32 @@ def delete_member_path(member_id, team_id):
   query_service.delete_member(conn, member_id)
   return redirect(url_for('showteam', team_id=team_id))
 
-@app.route('/members/new')
-def add_member():
-  return render_template('member_new.html')
+@app.route('/teams/<team_id>/members/new', methods=['GET', 'POST'])
+def add_member(team_id):
+  conn = mysql.connection
+  cur = conn.cursor()
+  query_service = QueryService(cur)
+  form = CreateMemberForm(request.form)
+
+  if request.method == "POST":
+    name = form.name.data
+    weight = form.weight.data
+    height = form.height.data
+    role = form.role.data
+    paddle_side = form.paddle_side.data
+    date_of_birth = form.date_of_birth.data
+    last_id = query_service.get_last_member_id()
+    member_id = last_id + 1
+
+    try:
+      query_service.create_member(conn, member_id, name, weight, height, role, paddle_side, date_of_birth, team_id)
+      flash("Member was created!")
+      return redirect(url_for('showteam', team_id=team_id))
+    except Exception as e:
+      flash("There was an error creating the member.")
+      return redirect(url_for('add_member'))
+  else:
+    return render_template('member_new.html', form=form, team_id=team_id)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
