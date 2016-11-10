@@ -1,6 +1,6 @@
 from app import app, mail, mysql
 from flask import Flask, render_template, redirect, url_for, request, flash, session, json
-from forms import ContactForm, RegistrationForm, LoginForm, CreateTeamForm, CreateMemberForm
+from forms import ContactForm, RegistrationForm, LoginForm, CreateTeamForm, CreateMemberForm, UpdateMemberForm
 from flask_mail import Message
 from werkzeug.security import generate_password_hash, check_password_hash
 from query_service import QueryService
@@ -128,6 +128,37 @@ def add_member(team_id):
       return redirect(url_for('add_member'))
   else:
     return render_template('member_new.html', form=form, team_id=team_id)
+
+@app.route('/teams/<team_id>/members/<member_id>/update', methods=['GET', 'POST'])
+def update_member(team_id, member_id):
+  conn = mysql.connection
+  cur = conn.cursor()
+  query_service = QueryService(cur)
+  form = UpdateMemberForm(request.form)
+
+  if 'Update' in request.form.values():
+    name = form.name.data
+    weight = form.weight.data
+    height = form.height.data
+    role = form.role.data
+    paddle_side = form.paddle_side.data
+    date_of_birth = form.date_of_birth.data
+
+    try:
+      query_service.update_member_by_id(conn, name, weight, height, role, paddle_side, date_of_birth, member_id)
+      flash("Member was updated!")
+      return redirect(url_for('showteam', team_id=team_id))
+    except Exception as e:
+      flash("There was an error updating the member.")
+      return redirect(url_for('update_member', team_id=team_id, member_id=member_id))
+  else:
+    form.name.data = query_service.get_member_memberName_by_id(member_id)
+    form.weight.data = query_service.get_member_weight_by_id(member_id)
+    form.height.data = query_service.get_member_height_by_id(member_id)
+    form.role.data = query_service.get_member_role_by_id(member_id)
+    form.paddle_side.data = query_service.get_member_paddle_side_by_id(member_id)
+    form.date_of_birth.data = query_service.get_member_date_of_birth_by_id(member_id)
+    return render_template('member_update.html', form=form, team_id=team_id, member_id=member_id)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
