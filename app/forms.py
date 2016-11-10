@@ -46,3 +46,12 @@ class CreateMemberForm(Form):
   paddle_side = SelectField('Paddle Side', choices=paddle_side_choices)
   date_of_birth = DateField('Date of Birth \n(YYYY-MM-DD)', format='%Y-%m-%d', widget=DatePickerWidget())
   submit = SubmitField("Create")
+
+class UpdateMemberForm(Form):
+  name = TextField('Member Name', [wtforms.validators.Length(min=1, max=50)])
+  weight = DecimalField('Weight \n(Pounds)')
+  height = DecimalField('Height \n(In CM)')
+  role = SelectField('Role', choices=roles)
+  paddle_side = SelectField('Paddle Side', choices=paddle_side_choices)
+  date_of_birth = DateField('Date of Birth \n(YYYY-MM-DD)', format='%Y-%m-%d', widget=DatePickerWidget())
+  submit = SubmitField("Update")

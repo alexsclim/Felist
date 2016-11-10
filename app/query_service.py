@@ -36,6 +36,36 @@ class QueryService:
     members = self.cursor.fetchall()
     return members
 
+  def get_member_memberName_by_id(self, member_id):
+    data = self.cursor.execute("SELECT * from Member WHERE memberId=%s", [member_id])
+    memberName = self.cursor.fetchall()[0]['memberName']
+    return memberName
+
+  def get_member_weight_by_id(self, member_id):
+    data = self.cursor.execute("SELECT * from Member WHERE memberId=%s", [member_id])
+    weight = self.cursor.fetchall()[0]['weight']
+    return weight
+
+  def get_member_height_by_id(self, member_id):
+    data = self.cursor.execute("SELECT * from Member WHERE memberId=%s", [member_id])
+    height = self.cursor.fetchall()[0]['height']
+    return height
+
+  def get_member_role_by_id(self, member_id):
+    data = self.cursor.execute("SELECT * from Member WHERE memberId=%s", [member_id])
+    role = self.cursor.fetchall()[0]['role']
+    return role
+
+  def get_member_paddle_side_by_id(self, member_id):
+    data = self.cursor.execute("SELECT * from Member WHERE memberId=%s", [member_id])
+    paddleSide = self.cursor.fetchall()[0]['paddleSide']
+    return paddleSide
+
+  def get_member_date_of_birth_by_id(self, member_id):
+    data = self.cursor.execute("SELECT * from Member WHERE memberId=%s", [member_id])
+    dateOfBirth = self.cursor.fetchall()[0]['dateOfBirth']
+    return dateOfBirth
+
   def username_exists(self, username):
     data = self.cursor.execute("SELECT * FROM User WHERE username = %s", [username])
     return data
@@ -62,6 +92,11 @@ class QueryService:
 
   def create_member(self, conn, member_id, name, weight, height, role, paddle_side, date_of_birth, team_id):
     data = self.cursor.execute("INSERT INTO Member(memberId, memberName, weight, height, role, paddleSide, dateOfBirth, teamId) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", [member_id, name, weight, height, role, paddle_side, date_of_birth, team_id])
+    conn.commit()
+    return
+
+  def update_member_by_id(self, conn, name, weight, height, role, paddle_side, date_of_birth, member_id):
+    data = self.cursor.execute("UPDATE Member SET memberName=%s, weight=%s, height=%s, role=%s, paddleSide=%s, dateOfBirth=%s WHERE memberId=%s", [name, weight, height, role, paddle_side, date_of_birth, member_id])
     conn.commit()
     return
 
