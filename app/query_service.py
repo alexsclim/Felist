@@ -14,6 +14,16 @@ class QueryService:
 
   def get_regattas(self):
     data = self.cursor.execute("SELECT * from Regatta")
+    regattas = self.cursor.fetchall()
+    return regattas
+
+  def get_raceresults_from_regatta(self, regatta_id):
+    data = self.cursor.execute("SELECT * FROM RaceResult WHERE regattaId=%s", [regatta_id])
+    raceresults = self.cursor.fetchall()
+    return raceresults
+
+  def get_regatta_by_id(self, regatta_id):
+    data = self.cursor.execute("SELECT * FROM Regatta WHERE regattaId=%s", [regatta_id])
     regatta = self.cursor.fetchall()
     return regatta
 
