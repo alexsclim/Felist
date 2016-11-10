@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="container">
+  <h1>Race Result for {{ regatta['name'] }}</h1>
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>ranking</th>
+        <th>timeSeconds</th>
+        <th>regattaId</th>
+        <th>teamId</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for raceResult in raceResults %}
+        <tr>
+          <td>{{raceResult["ranking"]}}</td>
+          <td>{{raceResult["timeSeconds"]}}</td>
+          <td>{{raceResult["regattaId"]}}</td>
+          <td>{{raceResult["teamId"]}}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

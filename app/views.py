@@ -294,6 +294,15 @@ def showteam(team_id):
   team = query_service.get_team_by_id(team_id)[0]
   return render_template('show_team.html', members=members, team=team)
 
+@app.route('/regattas/<regatta_id>')
+def showraceresults(regatta_id):
+  conn = mysql.connection
+  cur = conn.cursor()
+  query_service = QueryService(cur)
+  raceResults = query_service.get_raceresults_from_regatta(regatta_id)
+  regatta = query_service.get_regatta_by_id(regatta_id)[0]
+  return render_template('raceResults.html', raceResults=raceResults, regatta=regatta)
+
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
   form = ContactForm()
