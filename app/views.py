@@ -99,8 +99,19 @@ def delete_member_path(member_id, team_id):
   conn = mysql.connection
   cur = conn.cursor()
   query_service = QueryService(cur)
-  query_service.delete_member(conn, member_id)
-  return redirect(url_for('showteam', team_id=team_id))
+
+  teamOwner =  query_service.get_user_by_team_id(team_id)
+
+  print(teamOwner)
+  print(session.get('username'))
+
+  if teamOwner == session.get('username'):
+    query_service.delete_member(conn, member_id)
+    flash("Member was deleted!")
+    return redirect(url_for('showteam', team_id=team_id))
+  else:
+    flash("Cannot delete member. You are not the owner of the team")
+    return redirect(url_for('showteam', team_id=team_id))
 
 @app.route('/teams/<team_id>/members/new', methods=['GET', 'POST'])
 def add_member(team_id):
