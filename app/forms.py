@@ -1,7 +1,6 @@
 from flask_wtf import Form, validators
 from wtforms.fields import TextField, TextAreaField, SubmitField, PasswordField, DecimalField, SelectField, HiddenField
 from wtforms.fields.html5 import DateField
-from flask.ext.admin.form.widgets import DatePickerWidget
 import wtforms
 
 province_choices = [('British Columbia', 'British Columbia'), ('Ontario', 'Ontario'), ('Quebec', 'Quebec')]
@@ -44,7 +43,7 @@ class CreateMemberForm(Form):
   height = DecimalField('Height \n(In CM)')
   role = SelectField('Role', choices=roles)
   paddle_side = SelectField('Paddle Side', choices=paddle_side_choices)
-  date_of_birth = DateField('Date of Birth \n(YYYY-MM-DD)', format='%Y-%m-%d', widget=DatePickerWidget())
+  date_of_birth = DateField('Date of Birth \n(YYYY-MM-DD)', format='%Y-%m-%d')
   submit = SubmitField("Create")
 
 class UpdateMemberForm(Form):
@@ -53,5 +52,5 @@ class UpdateMemberForm(Form):
   height = DecimalField('Height \n(In CM)')
   role = SelectField('Role', choices=roles)
   paddle_side = SelectField('Paddle Side', choices=paddle_side_choices)
-  date_of_birth = DateField('Date of Birth \n(YYYY-MM-DD)', format='%Y-%m-%d', widget=DatePickerWidget())
+  date_of_birth = DateField('Date of Birth \n(YYYY-MM-DD)', format='%Y-%m-%d')
   submit = SubmitField("Update")
