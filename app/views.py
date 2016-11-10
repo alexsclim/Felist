@@ -99,8 +99,16 @@ def delete_member_path(member_id, team_id):
   conn = mysql.connection
   cur = conn.cursor()
   query_service = QueryService(cur)
-  query_service.delete_member(conn, member_id)
-  return redirect(url_for('showteam', team_id=team_id))
+
+  teamOwner =  query_service.get_user_by_team_id(team_id)
+
+  if teamOwner == session.get('username'):
+    query_service.delete_member(conn, member_id)
+    flash("Member was deleted!")
+    return redirect(url_for('showteam', team_id=team_id))
+  else:
+    flash("Cannot delete member. You are not the owner of the team")
+    return redirect(url_for('showteam', team_id=team_id))
 
 @app.route('/teams/<team_id>/members/new', methods=['GET', 'POST'])
 def add_member(team_id):
@@ -109,25 +117,32 @@ def add_member(team_id):
   query_service = QueryService(cur)
   form = CreateMemberForm(request.form)
 
-  if request.method == "POST":
-    name = form.name.data
-    weight = form.weight.data
-    height = form.height.data
-    role = form.role.data
-    paddle_side = form.paddle_side.data
-    date_of_birth = form.date_of_birth.data
-    last_id = query_service.get_last_member_id()
-    member_id = last_id + 1
+  teamOwner =  query_service.get_user_by_team_id(team_id)
 
-    try:
-      query_service.create_member(conn, member_id, name, weight, height, role, paddle_side, date_of_birth, team_id)
-      flash("Member was created!")
-      return redirect(url_for('showteam', team_id=team_id))
-    except Exception as e:
-      flash("There was an error creating the member.")
-      return redirect(url_for('add_member'))
+  if teamOwner == session.get('username'):
+    if request.method == "POST":
+      name = form.name.data
+      weight = form.weight.data
+      height = form.height.data
+      role = form.role.data
+      paddle_side = form.paddle_side.data
+      date_of_birth = form.date_of_birth.data
+      last_id = query_service.get_last_member_id()
+      member_id = last_id + 1
+
+      try:
+        query_service.create_member(conn, member_id, name, weight, height, role, paddle_side, date_of_birth, team_id)
+        flash("Member was created!")
+        return redirect(url_for('showteam', team_id=team_id))
+      except Exception as e:
+        flash("There was an error creating the member.")
+        return redirect(url_for('add_member'))
+    else:
+      return render_template('member_new.html', form=form, team_id=team_id)
   else:
-    return render_template('member_new.html', form=form, team_id=team_id)
+    flash("Cannot add member. You are not the owner of the team")
+    return redirect(url_for('showteam', team_id=team_id))
+
 
 @app.route('/teams/<team_id>/members/<member_id>/update', methods=['GET', 'POST'])
 def update_member(team_id, member_id):

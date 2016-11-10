@@ -85,6 +85,11 @@ class QueryService:
     teams = self.cursor.fetchall()
     return teams
 
+  def get_user_by_team_id(self, team_id):
+    data = self.cursor.execute("SELECT * FROM Team WHERE teamId= %s", [team_id])
+    username = self.cursor.fetchall()[0]['username']
+    return username
+
   def create_team(self, conn, team_id, team_name, practice_cost, username, city, province):
     data = self.cursor.execute("INSERT INTO Team(teamId, name, practiceCost, username, regionCity, regionProvince) VALUES (%s, %s, %s, %s, %s, %s)", [team_id, team_name, practice_cost, username, city, province])
     conn.commit()
