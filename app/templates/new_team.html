@@ -29,11 +29,10 @@
     {{ form.province }}
     </div>
 
+    {{ form.member_id }}
+
     <div class="form-group">
     {{ form.submit }}
     </div>
   </form>
-
-  <a href="{{ url_for('register') }}" class="btn btn-secondary">Register Here</a>
-  <a href="{{ url_for('contact') }}" class="btn btn-secondary">Contact Us</a>
 {% endblock %}

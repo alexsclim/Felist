@@ -3,6 +3,7 @@
 <div class="container">
   <h1>{{ team['name'] }}</h1>
   <h2>Dragonboat Members</h2>
+  <a href="{{ url_for('add_member', team_id=team['teamId']) }}" class="btn btn-primary">Add Member</a>
   <table class="table table-striped table-bordered">
     <thead>
       <tr>
@@ -20,7 +21,11 @@
       {% for member in members %}
         <tr>
           <td>{{member["memberId"]}}</td>
-          <td>{{member["memberName"]}}</td>
+          <td>
+            <form action="{{url_for('update_member', team_id=team['teamId'], member_id=member['memberId'])}}" method="post">
+              <input class="btn btn-link" type="submit" value="{{member["memberName"]}}">
+            </form>
+          </td>
           <td>{{member["weight"]}}</td>
           <td>{{member["height"]}}</td>
           <td>{{member["role"]}}</td>
@@ -28,7 +33,6 @@
           <td>{{member["dateOfBirth"]}}</td>
           <td>
             <form action="{{url_for('delete_member_path', team_id=team['teamId'], member_id=member['memberId'])}}" method="post">
-              <input type="hidden" name="_method" value="DELETE">
               <input class="btn btn-primary" type="submit" value="delete">
             </form>
           </td>
