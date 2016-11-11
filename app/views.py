@@ -94,6 +94,36 @@ def members():
     members = query_service.get_members()
     return render_template('members.html', members=members)
 
+@app.route('/paddles', methods=['GET', 'POST'])
+@login_required
+def paddles():
+    conn = mysql.connection
+    cur = conn.cursor()
+    query_service = QueryService(cur)
+
+    if request.method == "POST":
+        memberID = request.form.get("member", "")
+
+        if 'Manufacturer Name' in request.form.values():
+            sort = 'asc'
+            sort = request.form.get("paddle-sort", "")
+
+            if sort == 'asc':
+                paddles = query_service.sort_paddle_brand_asc()
+                sort = 'desc'
+            else:
+                paddles = query_service.sort_paddle_brand_desc()
+                sort = 'asc'
+
+            return render_template('paddles.html', paddles=paddles, memberID=memberID, paddleSort=sort)
+        else:
+            paddles = query_service.get_paddles_from_member(memberID)
+            return render_template('paddles.html', paddles=paddles, memberID=memberID)
+
+    else:
+        paddles = query_service.get_paddles()
+        return render_template('paddles.html', paddles=paddles)
+
 @app.route('/teams/<team_id>/members/<member_id>/delete', methods=['POST'])
 def delete_member_path(member_id, team_id):
   conn = mysql.connection
@@ -293,6 +323,14 @@ def showteam(team_id):
   members = query_service.get_members_from_team(team_id)
   team = query_service.get_team_by_id(team_id)[0]
   return render_template('show_team.html', members=members, team=team)
+
+@app.route('/members/<member_id>')
+def showmember(member_id):
+    conn = mysql.connection
+    cur = conn.cursor()
+    query_service = QueryService(cur)
+    member_with_paddle = query_service.get_member_and_paddles_from_id(member_id)
+    return render_template('show_member.html', members=member_with_paddle)
 
 @app.route('/regattas/<regatta_id>')
 def showraceresults(regatta_id):

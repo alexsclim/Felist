@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="container">
+  <h1>{{ members[0]['memberName'] }}</h1>
+  <h2>Member Details</h2>
+  <div>
+    <p><b>Member Name:</b> {{members[0]["memberName"]}}</p>
+    <p><b>Member Id:</b> {{members[0]["memberId"]}}</p>
+    <p><b>Weight:</b> {{members[0]["weight"]}}</p>
+    <p><b>Height:</b> {{members[0]["height"]}}</p>
+    <p><b>Role:</b> {{members[0]["role"]}}</p>
+    <p><b>Padlde Side:</b> {{members[0]["paddleSide"]}}</p>
+    <p><b>Date of Birth:</b> {{members[0]["dateOfBirth"]}}</p>
+    <p><b>TeamId:</b> {{members[0]["teamId"]}}</p>
+  </div>
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Manufacturer Brand</th>
+        <th>Material</th>
+        <th>Size</th>
+        <th>Colour</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for paddle in members %}
+      	<tr>
+          <td>{{paddle["brand"]}}</td>
+          <td>{{paddle["type"]}}</td>
+          <td>{{paddle["size"]}}</td>
+          <td>{{paddle["colour"]}}</td>
+      	</tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+{% endblock %}
