@@ -24,7 +24,11 @@
     <tbody>
       {% for member in members %}
       	<tr>
-      		<td>{{member["memberId"]}}</td>
+          <td>
+              <form action="{{ url_for('showmember', member_id=member["memberId"]) }}">
+                <input class="btn btn-primary" type="submit" name="member" value={{member["memberId"]}}></input>
+              </form>
+            </td>
       		<td>{{member["memberName"]}}</td>
       		<td>{{member["weight"]}}</td>
       		<td>{{member["height"]}}</td>

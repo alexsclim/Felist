@@ -8,12 +8,11 @@
         <th>#</th>
         <th>
           <form action="{{ url_for('paddles') }}" method="post">
-            <input class="btn btn-primary" type="submit" name="member-name" value="Member Name"></input>
+            <input class="btn btn-primary" type="submit" name="manufacturer-name" value="Manufacturer Name"></input>
             <input type="hidden" name="member" value={{memberId}}></input>
             <input type="hidden" name="paddle-sort" value={{paddleSort}}></input>
           </form>
         </th>
-        <th>Manufacturer Brand</th>
         <th>Material</th>
         <th>Size</th>
         <th>Colour</th>
@@ -22,7 +21,7 @@
     <tbody>
       {% for paddle in paddles %}
       	<tr>
-      		<td>{{paddle["memberId"]}}</td>
+          <td>{{paddle["memberId"]}}
           <td>{{paddle["brand"]}}</td>
           <td>{{paddle["type"]}}</td>
           <td>{{paddle["size"]}}</td>

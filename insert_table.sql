@@ -103,6 +103,21 @@ VALUES
 INSERT INTO PaddleOwns
 VALUES
 (2, 'Wood', 'Woodlyft', 50, 'Brown');
+INSERT INTO PaddleOwns
+VALUES
+(2, 'Burnwater', 'Trivium', 49, 'Black');
+INSERT INTO PaddleOwns
+VALUES
+(3, 'Wood', 'Woodlyft', 50, 'Brown');
+INSERT INTO PaddleOwns
+VALUES
+(4, 'Wood', 'Woodlyft', 50, 'Brown');
+INSERT INTO PaddleOwns
+VALUES
+(5, 'Wood', 'Woodlyft', 50, 'Brown');
+INSERT INTO PaddleOwns
+VALUES
+(6, 'Wood', 'Woodlyft', 50, 'Brown');
 
 INSERT INTO Participates
 VALUES
@@ -110,4 +125,3 @@ VALUES
 INSERT INTO Participates
 VALUES
 (2, 1);
-

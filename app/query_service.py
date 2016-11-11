@@ -95,27 +95,27 @@ class QueryService:
     members = self.cursor.fetchall()
     return members
 
-def sort_paddle_members_asc(self):
-    data = self.cursor.execute("SELECT * from PaddleOwns order by memberId asc")
+  def sort_paddle_brand_asc(self):
+    data = self.cursor.execute("SELECT * from PaddleOwns order by brand asc")
     paddles = self.cursor.fetchall()
     return paddles
 
-def sort_paddle_members_desc(self):
-    data = self.cursor.execute("SELECT * from PaddleOwns order by memberID desc")
+  def sort_paddle_brand_desc(self):
+    data = self.cursor.execute("SELECT * from PaddleOwns order by brand desc")
     paddles = self.cursor.fetchall()
     return paddles
 
-def get_paddles(self):
+  def get_paddles(self):
     data = self.cursor.execute("SELECT * from PaddleOwns")
     paddles = self.cursor.fetchall()
     return paddles
 
-def get_paddles_from_member(self, member_id):
-    data = self.cursor.execute("SELECT * from PaddleOwns where memberID=%s", [member_id])
+  def get_paddles_from_member(self, member_id):
+    data = self.cursor.execute("SELECT * from PaddleOwns where memberID=%d", [member_id])
     paddles = self.cursor.fetchall()
     return paddles
 
-def get_member_from_id(self, member_id):
-    data = self.cursor.execute("SELECT * from Member where memberID=%s", [member_id])
-    member = self.cursor.fetchall()
-    return member
+  def get_member_and_paddles_from_id(self, member_id):
+    data = self.cursor.execute("SELECT * from Member m, PaddleOwns p where m.memberId={0} AND p.memberId={1}".format(member_id, member_id))
+    member_with_paddle = self.cursor.fetchall()
+    return member_with_paddle

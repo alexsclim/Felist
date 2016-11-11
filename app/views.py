@@ -94,34 +94,34 @@ def members():
     members = query_service.get_members()
     return render_template('members.html', members=members)
 
-@app.route('paddles', method=['GET', 'POST'])
+@app.route('/paddles', methods=['GET', 'POST'])
 @login_required
 def paddles():
     conn = mysql.connection
     cur = conn.cursor()
     query_service = QueryService(cur)
 
-    if request.method = "POST":
+    if request.method == "POST":
         memberID = request.form.get("member", "")
 
-        if 'Member Name' in request.form.values():
+        if 'Manufacturer Name' in request.form.values():
             sort = 'asc'
             sort = request.form.get("paddle-sort", "")
 
             if sort == 'asc':
-                paddles = query_service.sort_paddle_members_asc()
+                paddles = query_service.sort_paddle_brand_asc()
                 sort = 'desc'
             else:
-                paddles = query_service.sort_paddle_members_desc()
+                paddles = query_service.sort_paddle_brand_desc()
                 sort = 'asc'
 
-            return render_template('paddles.html', paddles=paddles, memberID=memberID, memberSort=sort)
+            return render_template('paddles.html', paddles=paddles, memberID=memberID, paddleSort=sort)
         else:
             paddles = query_service.get_paddles_from_member(memberID)
             return render_template('paddles.html', paddles=paddles, memberID=memberID)
 
     else:
-        paddles = query.get_paddles()
+        paddles = query_service.get_paddles()
         return render_template('paddles.html', paddles=paddles)
 
 @app.route('/teams/<team_id>/members/<member_id>/delete', methods=['POST'])
@@ -248,14 +248,12 @@ def showteam(team_id):
   return render_template('show_team.html', members=members, team=team)
 
 @app.route('/members/<member_id>')
-def showMemberDetails(member_id):
+def showmember(member_id):
     conn = mysql.connection
     cur = conn.cursor()
     query_service = QueryService(cur)
-    paddles = query_service.get_paddles_from_member(member_id)
-    member = query_service.get_members_from_id(team_id)
-    return render_template('show_member.html', paddles=paddles, member=member)
-
+    member_with_paddle = query_service.get_member_and_paddles_from_id(member_id)
+    return render_template('show_member.html', members=member_with_paddle)
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
