@@ -17,8 +17,14 @@ class QueryService:
     regattas = self.cursor.fetchall()
     return regattas
 
-  def get_raceresults_from_regatta(self, regatta_id):
-    data = self.cursor.execute("SELECT * FROM RaceResult WHERE regattaId=%s", [regatta_id])
+
+  def get_leaderboard(self):
+    data = self.cursor.execute("SELECT COUNT(resultId), name FROM RaceResult Ra, Team T WHERE Ra.teamId = T.teamId AND Ranking = 1 GROUP BY T.teamId")
+    leaderboard = self.cursor.fetchall()
+    return leaderboard
+
+  def get_raceresults_join_team_from_regatta(self, regatta_id):
+    data = self.cursor.execute("SELECT* FROM RaceResult, Team WHERE RaceResult.teamId = Team.teamId AND regattaId=%s", [regatta_id])
     raceresults = self.cursor.fetchall()
     return raceresults
 
