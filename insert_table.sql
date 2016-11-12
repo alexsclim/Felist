@@ -96,6 +96,45 @@ VALUES
 INSERT INTO RaceResult
 VALUES
 (2, 2, 2.13, 1, 2);
+INSERT INTO RaceResult
+VALUES
+(3, 3, 2.33, 1, 3);
+INSERT INTO RaceResult
+VALUES
+(4, 4, 2.85, 1, 4);
+INSERT INTO RaceResult
+VALUES
+(5, 5, 2.93, 1, 5);
+INSERT INTO RaceResult
+VALUES
+(6, 1, 1.95, 2, 1);
+INSERT INTO RaceResult
+VALUES
+(7, 2, 2.05, 2, 5);
+INSERT INTO RaceResult
+VALUES
+(8, 3, 2.15, 2, 3);
+INSERT INTO RaceResult
+VALUES
+(9, 4, 2.25, 2, 4);
+INSERT INTO RaceResult
+VALUES
+(10, 5, 2.35, 2, 2);
+INSERT INTO RaceResult
+VALUES
+(11, 1, 2.45, 3, 3);
+INSERT INTO RaceResult
+VALUES
+(12, 2, 2.55, 3, 1);
+INSERT INTO RaceResult
+VALUES
+(13, 3, 2.65, 3, 2);
+INSERT INTO RaceResult
+VALUES
+(14, 4, 2.75, 3, 4);
+INSERT INTO RaceResult
+VALUES
+(15, 5, 2.85, 3, 5);
 
 INSERT INTO PaddleOwns
 VALUES

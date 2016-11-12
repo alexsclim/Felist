@@ -124,6 +124,15 @@ def paddles():
         paddles = query_service.get_paddles()
         return render_template('paddles.html', paddles=paddles)
 
+@app.route('/leaderboard', methods=['GET', 'POST'])
+@login_required
+def leaderboard():
+  cur = mysql.connection.cursor()
+  query_service = QueryService(cur)
+  leaderboard = query_service.get_leaderboard()
+
+  return render_template('leaderboard.html', leaderboard=leaderboard)
+
 @app.route('/teams/<team_id>/members/<member_id>/delete', methods=['POST'])
 def delete_member_path(member_id, team_id):
   conn = mysql.connection
@@ -337,7 +346,7 @@ def showraceresults(regatta_id):
   conn = mysql.connection
   cur = conn.cursor()
   query_service = QueryService(cur)
-  raceResults = query_service.get_raceresults_from_regatta(regatta_id)
+  raceResults = query_service.get_raceresults_join_team_from_regatta(regatta_id)
   regatta = query_service.get_regatta_by_id(regatta_id)[0]
   return render_template('raceResults.html', raceResults=raceResults, regatta=regatta)
 
