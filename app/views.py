@@ -48,6 +48,17 @@ def regattas():
 
     return render_template('regattas.html', regattas=regattas)
 
+@app.route('/regattas/<regatta_id>/delete', methods=['POST'])
+@login_required
+def delete_regatta(regatta_id):
+  conn = mysql.connection
+  cur = conn.cursor()
+  query_service = QueryService(cur)
+
+  query_service.delete_regatta(conn, regatta_id)
+  flash("Regatta was deleted!")
+  return redirect(url_for('regattas'))
+
 @app.route('/teams', methods=['GET', 'POST'])
 @login_required
 def teams():
@@ -177,7 +188,7 @@ def add_member(team_id):
         return redirect(url_for('showteam', team_id=team_id))
       except Exception as e:
         flash("There was an error creating the member.")
-        return redirect(url_for('add_member'))
+        return redirect(url_for('add_member', team_id=team_id))
     else:
       return render_template('member_new.html', form=form, team_id=team_id)
   else:
@@ -302,7 +313,7 @@ def createteam():
 
   if request.method == 'POST':
     if form.validate() == False:
-      error = "You have not inputted correct data"
+      error = "Cannot insert cost as a string, please enter a number."
       return render_template('new_team.html', form=form, error=error)
     team_name = form.name.data
     practice_cost = form.practice_cost.data
@@ -323,7 +334,6 @@ def createteam():
     return redirect(url_for('dashboard'))
 
   elif request.method == 'GET':
-    print "HIHI"
     return render_template('new_team.html', form=form)
 
 @app.route('/teams/<team_id>')
