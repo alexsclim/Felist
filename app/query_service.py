@@ -53,6 +53,11 @@ class QueryService:
     member_id = self.cursor.fetchall()[0]['MAX(memberId)']
     return member_id
 
+  def get_last_regatta_id(self):
+    data = self.cursor.execute("SELECT MAX(regattaId) FROM Regatta")
+    regatta_id = self.cursor.fetchall()[0]['MAX(regattaId)']
+    return regatta_id
+
   def get_members(self):
     data = self.cursor.execute("SELECT * from Member")
     members = self.cursor.fetchall()
@@ -119,6 +124,11 @@ class QueryService:
 
   def create_member(self, conn, member_id, name, weight, height, role, paddle_side, date_of_birth, team_id):
     data = self.cursor.execute("INSERT INTO Member(memberId, memberName, weight, height, role, paddleSide, dateOfBirth, teamId) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", [member_id, name, weight, height, role, paddle_side, date_of_birth, team_id])
+    conn.commit()
+    return
+
+  def create_regatta(self, conn, regatta_id, name, raceLength, location, raceDate, city, province):
+    data = self.cursor.execute("INSERT INTO Regatta(regattaId, name, raceLength, location, raceDate, regionCity, regionProvince) VALUES (%s, %s, %s, %s, %s, %s, %s)", [regatta_id, name, raceLength, location, raceDate, city, province])
     conn.commit()
     return
 

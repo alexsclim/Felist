@@ -1,5 +1,5 @@
 from flask_wtf import Form, validators
-from wtforms.fields import TextField, TextAreaField, SubmitField, PasswordField, DecimalField, SelectField, HiddenField
+from wtforms.fields import TextField, TextAreaField, SubmitField, PasswordField, DecimalField, SelectField, HiddenField, IntegerField
 from wtforms.fields.html5 import DateField
 import wtforms
 
@@ -54,3 +54,12 @@ class UpdateMemberForm(Form):
   paddle_side = SelectField('Paddle Side', choices=paddle_side_choices)
   date_of_birth = DateField('Date of Birth \n(YYYY-MM-DD)', format='%Y-%m-%d')
   submit = SubmitField("Update")
+
+class CreateRegattaForm(Form):
+  name = TextField('Name', [wtforms.validators.Length(min=1, max=50)])
+  raceLength = IntegerField('Length \n(Meters)')
+  location = TextField('Location')
+  raceDate = DateField('Date \n(YYYY-MM-DD)', format='%Y-%m-%d')
+  city = SelectField('City', [wtforms.validators.Required("Please enter a city")], choices=city_choices)
+  province = SelectField('Province', [wtforms.validators.Required("Please enter a province")], choices=province_choices)
+  submit = SubmitField("Create")
