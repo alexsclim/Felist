@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS HasPractice(
 CREATE TABLE IF NOT EXISTS RaceResult(
   resultId int,
   ranking int,
-  timeSeconds decimal,
+  timeSeconds float,
   regattaId int NOT NULL,
   teamId int,
   PRIMARY KEY(teamId, resultId),

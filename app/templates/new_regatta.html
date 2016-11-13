@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block body %}
+<h2>Create New Regatta</h2>
+
+  {% if error %}
+    <p class="error"><strong>Error:</strong> {{ error }}
+  {% endif %}
+
+  <form class="form-horizontal" action="{{ url_for('new_regatta') }}" method=post>
+    {{ form.hidden_tag() }}
+
+    <div class="form-group">
+      <label for="inputUsername" class="col-sm-1 control-label">{{ form.name.label }}</label>
+      {{ form.name }}
+    </div>
+
+    <div class="form-group">
+      <label for="inputCost" class="col-sm-1 control-label">{{ form.raceLength.label }}</label>
+    {{ form.raceLength }}
+    </div>
+
+    <div class="form-group">
+      <label for="inputCity" class="col-sm-1 control-label">{{ form.location.label }}</label>
+    {{ form.location }}
+    </div>
+
+    <div class="form-group">
+      <label for="inputCity" class="col-sm-1 control-label">{{ form.raceDate.label }}</label>
+    {{ form.raceDate }}
+    </div>
+
+    <div class="form-group">
+      <label for="inputCity" class="col-sm-1 control-label">{{ form.city.label }}</label>
+    {{ form.city }}
+    </div>
+
+    <div class="form-group">
+      <label for="inputProvince" class="col-sm-1 control-label">{{ form.province.label }}</label>
+    {{ form.province }}
+    </div>
+
+    <div class="form-group">
+    {{ form.submit }}
+    </div>
+  </form>
+{% endblock %}

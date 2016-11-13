@@ -1,6 +1,6 @@
 from app import app, mail, mysql
 from flask import Flask, render_template, redirect, url_for, request, flash, session, json
-from forms import ContactForm, RegistrationForm, LoginForm, CreateTeamForm, CreateMemberForm, UpdateMemberForm
+from forms import ContactForm, RegistrationForm, LoginForm, CreateTeamForm, CreateMemberForm, UpdateMemberForm, CreateRegattaForm
 from flask_mail import Message
 from werkzeug.security import generate_password_hash, check_password_hash
 from query_service import QueryService
@@ -18,6 +18,8 @@ def login_required(f):
 @app.route('/debug', methods=['GET'])
 def debug():
   cur = mysql.connection.cursor()
+  query_service = QueryService(cur)
+  print()
   return render_template('dashboard.html')
 
 @app.route('/', methods=['GET'])
@@ -45,6 +47,17 @@ def regattas():
     regattas = query_service.get_regattas()
 
     return render_template('regattas.html', regattas=regattas)
+
+@app.route('/regattas/<regatta_id>/delete', methods=['POST'])
+@login_required
+def delete_regatta(regatta_id):
+  conn = mysql.connection
+  cur = conn.cursor()
+  query_service = QueryService(cur)
+
+  query_service.delete_regatta(conn, regatta_id)
+  flash("Regatta was deleted!")
+  return redirect(url_for('regattas'))
 
 @app.route('/teams', methods=['GET', 'POST'])
 @login_required
@@ -94,6 +107,45 @@ def members():
     members = query_service.get_members()
     return render_template('members.html', members=members)
 
+@app.route('/paddles', methods=['GET', 'POST'])
+@login_required
+def paddles():
+    conn = mysql.connection
+    cur = conn.cursor()
+    query_service = QueryService(cur)
+
+    if request.method == "POST":
+        memberID = request.form.get("member", "")
+
+        if 'Manufacturer Name' in request.form.values():
+            sort = 'asc'
+            sort = request.form.get("paddle-sort", "")
+
+            if sort == 'asc':
+                paddles = query_service.sort_paddle_brand_asc()
+                sort = 'desc'
+            else:
+                paddles = query_service.sort_paddle_brand_desc()
+                sort = 'asc'
+
+            return render_template('paddles.html', paddles=paddles, memberID=memberID, paddleSort=sort)
+        else:
+            paddles = query_service.get_paddles_from_member(memberID)
+            return render_template('paddles.html', paddles=paddles, memberID=memberID)
+
+    else:
+        paddles = query_service.get_paddles()
+        return render_template('paddles.html', paddles=paddles)
+
+@app.route('/leaderboard', methods=['GET', 'POST'])
+@login_required
+def leaderboard():
+  cur = mysql.connection.cursor()
+  query_service = QueryService(cur)
+  leaderboard = query_service.get_leaderboard()
+
+  return render_template('leaderboard.html', leaderboard=leaderboard)
+
 @app.route('/teams/<team_id>/members/<member_id>/delete', methods=['POST'])
 def delete_member_path(member_id, team_id):
   conn = mysql.connection
@@ -136,7 +188,7 @@ def add_member(team_id):
         return redirect(url_for('showteam', team_id=team_id))
       except Exception as e:
         flash("There was an error creating the member.")
-        return redirect(url_for('add_member'))
+        return redirect(url_for('add_member', team_id=team_id))
     else:
       return render_template('member_new.html', form=form, team_id=team_id)
   else:
@@ -261,7 +313,7 @@ def createteam():
 
   if request.method == 'POST':
     if form.validate() == False:
-      error = "You have not inputted correct data"
+      error = "Cannot insert cost as a string, please enter a number."
       return render_template('new_team.html', form=form, error=error)
     team_name = form.name.data
     practice_cost = form.practice_cost.data
@@ -282,8 +334,40 @@ def createteam():
     return redirect(url_for('dashboard'))
 
   elif request.method == 'GET':
-    print "HIHI"
     return render_template('new_team.html', form=form)
+
+@app.route('/regattas/new', methods=['GET', 'POST'])
+def new_regatta():
+  conn = mysql.connection
+  cur = conn.cursor()
+  query_service = QueryService(cur)
+  form = CreateRegattaForm(request.form)
+
+  if request.method == 'POST':
+    if form.validate() == False:
+      error = "Cannot create"
+      return render_template('new_regatta.html', form=form, error=error)
+    name = form.name.data
+    raceLength = form.raceLength.data
+    location = form.location.data
+    raceDate = form.raceDate.data
+    city = form.city.data
+    province = form.province.data
+
+    last_id = query_service.get_last_regatta_id()
+    regatta_id = last_id + 1;
+
+    try:
+      query_service.create_regatta(conn, regatta_id, name, raceLength, location, raceDate, city, province)
+      flash("Regatta Created!")
+    except Exception as e:
+      flash("There was an error creating your regatta.")
+      return redirect(url_for('new_regatta'))
+
+    return redirect(url_for('regattas'))
+
+  elif request.method == 'GET':
+    return render_template('new_regatta.html', form=form)
 
 @app.route('/teams/<team_id>')
 def showteam(team_id):
@@ -294,14 +378,23 @@ def showteam(team_id):
   team = query_service.get_team_by_id(team_id)[0]
   return render_template('show_team.html', members=members, team=team)
 
+@app.route('/members/<member_id>')
+def showmember(member_id):
+    conn = mysql.connection
+    cur = conn.cursor()
+    query_service = QueryService(cur)
+    member_with_paddle = query_service.get_member_and_paddles_from_id(member_id)
+    return render_template('show_member.html', members=member_with_paddle)
+
 @app.route('/regattas/<regatta_id>')
 def showraceresults(regatta_id):
   conn = mysql.connection
   cur = conn.cursor()
   query_service = QueryService(cur)
-  raceResults = query_service.get_raceresults_from_regatta(regatta_id)
+  raceResults = query_service.get_raceresults_join_team_from_regatta(regatta_id)
+  average_time = query_service.get_average_time_from_regatta(regatta_id)[0]['AVG(timeSeconds)']
   regatta = query_service.get_regatta_by_id(regatta_id)[0]
-  return render_template('raceResults.html', raceResults=raceResults, regatta=regatta)
+  return render_template('raceResults.html', raceResults=raceResults, average_time=average_time, regatta=regatta)
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():

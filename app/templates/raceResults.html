@@ -2,13 +2,13 @@
 {% block body %}
 <div class="container">
   <h1>Race Result for {{ regatta['name'] }}</h1>
+  <div>Average Time: {{ average_time }}</div>
   <table class="table table-striped table-bordered">
     <thead>
       <tr>
-        <th>ranking</th>
-        <th>timeSeconds</th>
-        <th>regattaId</th>
-        <th>teamId</th>
+        <th>Rank</th>
+        <th>Time Seconds</th>
+        <th>Team Name</th>
       </tr>
     </thead>
     <tbody>
@@ -16,8 +16,7 @@
         <tr>
           <td>{{raceResult["ranking"]}}</td>
           <td>{{raceResult["timeSeconds"]}}</td>
-          <td>{{raceResult["regattaId"]}}</td>
-          <td>{{raceResult["teamId"]}}</td>
+          <td>{{raceResult["name"]}}</td>
         </tr>
       {% endfor %}
     </tbody>

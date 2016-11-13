@@ -17,10 +17,21 @@ class QueryService:
     regattas = self.cursor.fetchall()
     return regattas
 
-  def get_raceresults_from_regatta(self, regatta_id):
-    data = self.cursor.execute("SELECT * FROM RaceResult WHERE regattaId=%s", [regatta_id])
+
+  def get_leaderboard(self):
+    data = self.cursor.execute("SELECT COUNT(resultId), name FROM RaceResult Ra, Team T WHERE Ra.teamId = T.teamId AND Ranking = 1 GROUP BY T.teamId")
+    leaderboard = self.cursor.fetchall()
+    return leaderboard
+
+  def get_raceresults_join_team_from_regatta(self, regatta_id):
+    data = self.cursor.execute("SELECT* FROM RaceResult, Team WHERE RaceResult.teamId = Team.teamId AND regattaId=%s", [regatta_id])
     raceresults = self.cursor.fetchall()
     return raceresults
+
+  def get_average_time_from_regatta(self, regatta_id):
+    data = self.cursor.execute("SELECT AVG(timeSeconds) FROM RaceResult WHERE regattaId=%s", [regatta_id]);
+    average_time = self.cursor.fetchall()
+    return average_time
 
   def get_regatta_by_id(self, regatta_id):
     data = self.cursor.execute("SELECT * FROM Regatta WHERE regattaId=%s", [regatta_id])
@@ -38,8 +49,14 @@ class QueryService:
     return team
 
   def get_last_member_id(self):
-    data = self.cursor.execute("SELECT * FROM Member")
-    return data
+    data = self.cursor.execute("SELECT MAX(memberId) FROM Member")
+    member_id = self.cursor.fetchall()[0]['MAX(memberId)']
+    return member_id
+
+  def get_last_regatta_id(self):
+    data = self.cursor.execute("SELECT MAX(regattaId) FROM Regatta")
+    regatta_id = self.cursor.fetchall()[0]['MAX(regattaId)']
+    return regatta_id
 
   def get_members(self):
     data = self.cursor.execute("SELECT * from Member")
@@ -110,6 +127,11 @@ class QueryService:
     conn.commit()
     return
 
+  def create_regatta(self, conn, regatta_id, name, raceLength, location, raceDate, city, province):
+    data = self.cursor.execute("INSERT INTO Regatta(regattaId, name, raceLength, location, raceDate, regionCity, regionProvince) VALUES (%s, %s, %s, %s, %s, %s, %s)", [regatta_id, name, raceLength, location, raceDate, city, province])
+    conn.commit()
+    return
+
   def update_member_by_id(self, conn, name, weight, height, role, paddle_side, date_of_birth, member_id):
     data = self.cursor.execute("UPDATE Member SET memberName=%s, weight=%s, height=%s, role=%s, paddleSide=%s, dateOfBirth=%s WHERE memberId=%s", [name, weight, height, role, paddle_side, date_of_birth, member_id])
     conn.commit()
@@ -134,6 +156,11 @@ class QueryService:
     conn.commit()
     return
 
+  def delete_regatta(self, conn, regattaId):
+    data = self.cursor.execute("Delete from Regatta WHERE regattaId = %s", [regattaId])
+    conn.commit()
+    return
+
   def sort_member_names_by_team_asc(self, team_id):
     data = self.cursor.execute("SELECT * from Member where teamId=%s order by memberName asc", [team_id])
     members = self.cursor.fetchall()
@@ -153,3 +180,28 @@ class QueryService:
     data = self.cursor.execute("SELECT * from Member order by memberName desc")
     members = self.cursor.fetchall()
     return members
+
+  def sort_paddle_brand_asc(self):
+    data = self.cursor.execute("SELECT * from PaddleOwns order by brand asc")
+    paddles = self.cursor.fetchall()
+    return paddles
+
+  def sort_paddle_brand_desc(self):
+    data = self.cursor.execute("SELECT * from PaddleOwns order by brand desc")
+    paddles = self.cursor.fetchall()
+    return paddles
+
+  def get_paddles(self):
+    data = self.cursor.execute("SELECT * from PaddleOwns")
+    paddles = self.cursor.fetchall()
+    return paddles
+
+  def get_paddles_from_member(self, member_id):
+    data = self.cursor.execute("SELECT * from PaddleOwns where memberID=%d", [member_id])
+    paddles = self.cursor.fetchall()
+    return paddles
+
+  def get_member_and_paddles_from_id(self, member_id):
+    data = self.cursor.execute("SELECT * from Member m, PaddleOwns p where m.memberId={0} AND p.memberId={1}".format(member_id, member_id))
+    member_with_paddle = self.cursor.fetchall()
+    return member_with_paddle

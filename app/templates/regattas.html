@@ -2,6 +2,7 @@
 {% block body %}
 <div class="container">
   <h2>Dragonboat Regattas</h2>
+  <a href="{{ url_for('new_regatta') }}", class="btn btn-primary">Add New Regatta</a>
   <form action="" method="post">
     <input type="input" name="search-input"></input>
     <input type="submit" name="search-button" value="Search Regattas" class="btn btn-primary"></input>
@@ -17,6 +18,7 @@
         <th>regionCity</th>
         <th>regionProvince</th>
         <th></th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -31,6 +33,11 @@
       		<td>{{regatta["regionProvince"]}}</td>
           <td>
             <a href="{{ url_for('showraceresults', regatta_id=regatta["regattaId"])}}" class="btn btn-info">Show Race Result</a>
+          </td>
+          <td>
+            <form action="{{url_for('delete_regatta', regatta_id=regatta['regattaId'])}}" method="post">
+              <input class="btn btn-danger" type="submit" value="delete">
+            </form>
           </td>
       	</tr>
       {% endfor %}

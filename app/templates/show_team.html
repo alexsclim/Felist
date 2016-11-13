@@ -33,7 +33,7 @@
           <td>{{member["dateOfBirth"]}}</td>
           <td>
             <form action="{{url_for('delete_member_path', team_id=team['teamId'], member_id=member['memberId'])}}" method="post">
-              <input class="btn btn-primary" type="submit" value="delete">
+              <input class="btn btn-danger" type="submit" value="delete">
             </form>
           </td>
         </tr>
