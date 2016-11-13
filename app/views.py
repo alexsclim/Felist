@@ -1,6 +1,6 @@
 from app import app, mail, mysql
 from flask import Flask, render_template, redirect, url_for, request, flash, session, json
-from forms import ContactForm, RegistrationForm, LoginForm, CreateTeamForm, CreateMemberForm, UpdateMemberForm
+from forms import ContactForm, RegistrationForm, LoginForm, CreateTeamForm, CreateMemberForm, UpdateMemberForm, CreateRegattaForm
 from flask_mail import Message
 from werkzeug.security import generate_password_hash, check_password_hash
 from query_service import QueryService
@@ -335,6 +335,39 @@ def createteam():
 
   elif request.method == 'GET':
     return render_template('new_team.html', form=form)
+
+@app.route('/regattas/new', methods=['GET', 'POST'])
+def new_regatta():
+  conn = mysql.connection
+  cur = conn.cursor()
+  query_service = QueryService(cur)
+  form = CreateRegattaForm(request.form)
+
+  if request.method == 'POST':
+    if form.validate() == False:
+      error = "Cannot create"
+      return render_template('new_regatta.html', form=form, error=error)
+    name = form.name.data
+    raceLength = form.raceLength.data
+    location = form.location.data
+    raceDate = form.raceDate.data
+    city = form.city.data
+    province = form.province.data
+
+    last_id = query_service.get_last_regatta_id()
+    regatta_id = last_id + 1;
+
+    try:
+      query_service.create_regatta(conn, regatta_id, name, raceLength, location, raceDate, city, province)
+      flash("Regatta Created!")
+    except Exception as e:
+      flash("There was an error creating your regatta.")
+      return redirect(url_for('new_regatta'))
+
+    return redirect(url_for('regattas'))
+
+  elif request.method == 'GET':
+    return render_template('new_regatta.html', form=form)
 
 @app.route('/teams/<team_id>')
 def showteam(team_id):

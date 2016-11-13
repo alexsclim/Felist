@@ -2,6 +2,7 @@
 {% block body %}
 <div class="container">
   <h2>Dragonboat Regattas</h2>
+  <a href="{{ url_for('new_regatta') }}", class="btn btn-primary">Add New Regatta</a>
   <form action="" method="post">
     <input type="input" name="search-input"></input>
     <input type="submit" name="search-button" value="Search Regattas" class="btn btn-primary"></input>
