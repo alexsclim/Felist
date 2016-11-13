@@ -180,16 +180,13 @@ def add_member(team_id):
       paddle_side = form.paddle_side.data
       date_of_birth = form.date_of_birth.data
       last_id = query_service.get_last_member_id()
-      print last_id
       member_id = last_id + 1
-      print member_id
 
       try:
         query_service.create_member(conn, member_id, name, weight, height, role, paddle_side, date_of_birth, team_id)
         flash("Member was created!")
         return redirect(url_for('showteam', team_id=team_id))
       except Exception as e:
-        print e
         flash("There was an error creating the member.")
         return redirect(url_for('add_member', team_id=team_id))
     else:
@@ -331,7 +328,6 @@ def createteam():
       query_service.create_team(conn, team_id, team_name, practice_cost, username, city, province)
       flash("Team Created!")
     except Exception as e:
-      print e
       flash("There was an error creating your team.")
       return redirect(url_for('createteam'))
 
