@@ -18,6 +18,8 @@ def login_required(f):
 @app.route('/debug', methods=['GET'])
 def debug():
   cur = mysql.connection.cursor()
+  query_service = QueryService(cur)
+  print()
   return render_template('dashboard.html')
 
 @app.route('/', methods=['GET'])
@@ -347,8 +349,9 @@ def showraceresults(regatta_id):
   cur = conn.cursor()
   query_service = QueryService(cur)
   raceResults = query_service.get_raceresults_join_team_from_regatta(regatta_id)
+  average_time = query_service.get_average_time_from_regatta(regatta_id)[0]['AVG(timeSeconds)']
   regatta = query_service.get_regatta_by_id(regatta_id)[0]
-  return render_template('raceResults.html', raceResults=raceResults, regatta=regatta)
+  return render_template('raceResults.html', raceResults=raceResults, average_time=average_time, regatta=regatta)
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():

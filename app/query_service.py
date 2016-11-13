@@ -28,6 +28,11 @@ class QueryService:
     raceresults = self.cursor.fetchall()
     return raceresults
 
+  def get_average_time_from_regatta(self, regatta_id):
+    data = self.cursor.execute("SELECT AVG(timeSeconds) FROM RaceResult WHERE regattaId=%s", [regatta_id]);
+    average_time = self.cursor.fetchall()
+    return average_time
+
   def get_regatta_by_id(self, regatta_id):
     data = self.cursor.execute("SELECT * FROM Regatta WHERE regattaId=%s", [regatta_id])
     regatta = self.cursor.fetchall()
