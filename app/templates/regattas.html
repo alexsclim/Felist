@@ -17,6 +17,7 @@
         <th>regionCity</th>
         <th>regionProvince</th>
         <th></th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -31,6 +32,11 @@
       		<td>{{regatta["regionProvince"]}}</td>
           <td>
             <a href="{{ url_for('showraceresults', regatta_id=regatta["regattaId"])}}" class="btn btn-info">Show Race Result</a>
+          </td>
+          <td>
+            <form action="{{url_for('delete_regatta', regatta_id=regatta['regattaId'])}}" method="post">
+              <input class="btn btn-danger" type="submit" value="delete">
+            </form>
           </td>
       	</tr>
       {% endfor %}

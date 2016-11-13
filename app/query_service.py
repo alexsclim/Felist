@@ -49,8 +49,9 @@ class QueryService:
     return team
 
   def get_last_member_id(self):
-    data = self.cursor.execute("SELECT * FROM Member")
-    return data
+    data = self.cursor.execute("SELECT MAX(memberId) FROM Member")
+    member_id = self.cursor.fetchall()[0]['MAX(memberId)']
+    return member_id
 
   def get_members(self):
     data = self.cursor.execute("SELECT * from Member")
@@ -142,6 +143,11 @@ class QueryService:
 
   def delete_member(self, conn, memberId):
     data = self.cursor.execute("Delete from Member WHERE memberId = %s", [memberId])
+    conn.commit()
+    return
+
+  def delete_regatta(self, conn, regattaId):
+    data = self.cursor.execute("Delete from Regatta WHERE regattaId = %s", [regattaId])
     conn.commit()
     return
 
