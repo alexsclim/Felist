@@ -58,6 +58,9 @@ VALUES
 INSERT INTO Team
 VALUES
 (5, 'Xhibit', 1000.80, 'admin', 'Vancouver', 'British Columbia');
+INSERT INTO Team
+VALUES
+(6, 'Felix Best Team', 1000.80, 'admin', 'Toronto', 'Ontario');
 
 
 INSERT INTO Member
@@ -132,9 +135,6 @@ VALUES
 INSERT INTO RaceResult
 VALUES
 (14, 4, 2.75, 3, 4);
-INSERT INTO RaceResult
-VALUES
-(15, 5, 2.85, 3, 5);
 
 INSERT INTO PaddleOwns
 VALUES
