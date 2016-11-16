@@ -40,13 +40,14 @@ def regattas():
     if 'Search Regattas' in request.form.values():
       search = request.form['search-input']
       regattas = query_service.search_regattas(search)
-
-      return render_template('regattas.html', regattas=regattas)
-
+    elif 'Find Regattas With All Teams From This Region' in request.form.values():
+      search = request.form['selected-province']
+      regattas = query_service.search_regattas_with_all_teams_from_province(search)
   else:
     regattas = query_service.get_regattas()
 
-    return render_template('regattas.html', regattas=regattas)
+  provinces = query_service.get_distinct_provinces()
+  return render_template('regattas.html', regattas=regattas, provinces=provinces)
 
 @app.route('/regattas/<regatta_id>/delete', methods=['POST'])
 @login_required
