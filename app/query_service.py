@@ -17,7 +17,6 @@ class QueryService:
     regattas = self.cursor.fetchall()
     return regattas
 
-
   def get_leaderboard(self):
     data = self.cursor.execute("SELECT COUNT(resultId), name FROM RaceResult Ra, Team T WHERE Ra.teamId = T.teamId AND Ranking = 1 GROUP BY T.teamId")
     leaderboard = self.cursor.fetchall()
@@ -160,6 +159,11 @@ class QueryService:
     data = self.cursor.execute("Delete from Regatta WHERE regattaId = %s", [regattaId])
     conn.commit()
     return
+
+  def delete_team(self, conn, teamId):
+      data = self.cursor.execute("Delete from Team WHERE teamId = %s", [teamId])
+      conn.commit()
+      return
 
   def sort_member_names_by_team_asc(self, team_id):
     data = self.cursor.execute("SELECT * from Member where teamId=%s order by memberName asc", [team_id])

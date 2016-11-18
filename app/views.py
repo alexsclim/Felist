@@ -162,6 +162,23 @@ def delete_member_path(member_id, team_id):
     flash("Cannot delete member. You are not the owner of the team")
     return redirect(url_for('showteam', team_id=team_id))
 
+@app.route('/teams/<team_id>/delete', methods=['POST'])
+@login_required
+def delete_team(team_id):
+    conn = mysql.connection
+    cur = conn.cursor()
+    query_service = QueryService(cur)
+
+    teamOwner = query_service.get_user_by_team_id(team_id)
+
+    if teamOwner == session.get('username'):
+        query_service.delete_team(conn, team_id)
+        flash("Team was deleted!")
+        return redirect(url_for('teams'))
+    else:
+        flash("Cannot delete team. You are not the owner of the team")
+        return redirect(url_for('teams'))
+
 @app.route('/teams/<team_id>/members/new', methods=['GET', 'POST'])
 def add_member(team_id):
   conn = mysql.connection

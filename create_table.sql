@@ -1,3 +1,4 @@
+
 CREATE DATABASE IF NOT EXISTS felist;
 use felist;
 
@@ -54,7 +55,7 @@ CREATE TABLE IF NOT EXISTS Member(
   teamId int NOT NULL,
   PRIMARY KEY(memberId),
   FOREIGN KEY(teamId) REFERENCES Team(teamId)
-    ON DELETE NO ACTION,
+    ON DELETE NO ACTION
     ON UPDATE CASCADE
 );
 
