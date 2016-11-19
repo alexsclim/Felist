@@ -1,5 +1,5 @@
 # Felist
-CS304 Database Project(Dragonboat Rostering App)
+Dragonboat Rostering App
 
 ### Setup for OSX  
   
