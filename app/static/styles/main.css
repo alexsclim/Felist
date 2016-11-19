@@ -50,3 +50,7 @@ form input#submit:hover{
   background-color: #dbdbdb;
 }
 
+.fb-page {
+  margin-top: 40px;
+  margin-left: 5%;
+}
