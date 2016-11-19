@@ -65,7 +65,7 @@ VALUES
 
 INSERT INTO Member
 VALUES
-(1, 'Alex', 170.80, 6.2, 'paddler', 'left', '1995-12-18', 1);
+(1, 'Alex', 170.80, 6.2, 'paddler', 'left', '1995-12-17', 1);
 INSERT INTO Member
 VALUES
 (2, 'Clarence', 130.80, 5.8, 'paddler', 'left', '1995-09-20', 1);
