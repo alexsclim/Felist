@@ -1,3 +1,14 @@
+#logo {
+  margin-right: 10px;
+  font-size: 1.9em;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  padding-top: 9px;
+  font-weight: bold;
+  padding-left: 2px;
+}
+
 .flash {
   background-color: #FBB0B0;
   padding: 10px;
@@ -5,37 +16,34 @@
   margin-bottom: 10px;
 }
 
+.icon-logo {
+  width: 70px;
+  height: 50px;
+}
+
+.margin-top {
+  margin-top: 70px;
+}
+
+.margin-top-small {
+  margin-top: 5px;
+}
+
+.margin-left {
+  margin-left: 5px;
+}
+
+.margin-bottom {
+  margin-bottom: 5px;
+}
+
 form label {
   font-size: 1.1em;
   font-weight: bold;
 }
 
-form input#name,
-form input#email,
-form input#subject {
-  width: 400px;
-  background-color: #fafafa;
-  border: 1px solid #cccccc;
-  padding: 5px;
-  font-size: 1.1em;
-}
-
 form textarea#message {
-  width: 500px;
   height: 100px;
-  background-color: #fafafa;
-  border: 1px solid #cccccc;
-  padding: 5px;
-  font-size: 1.1em;
-}
-
-form input#submit {
-  display: block;
-  border:1px solid #d8d8d8;
-  padding: 10px;
-  font-weight:bold;
-  color: #000000;
-  background-color: #f4f4f4;
 }
 
 form input#submit:hover{

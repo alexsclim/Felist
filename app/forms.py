@@ -18,16 +18,16 @@ class ContactForm(Form):
 
 class RegistrationForm(Form):
   username = TextField('Username', [wtforms.validators.Required("Pleaser enter a username"), wtforms.validators.Length(min=4, max=20)])
-  password = PasswordField('New Password', [
+  password = PasswordField('Password', [
       wtforms.validators.Required("Please enter a password"),
       wtforms.validators.EqualTo('confirm', message='Passwords must match')
   ])
-  confirm = PasswordField('Repeat Password')
+  confirm = PasswordField('Confirm Password')
   submit = SubmitField("Register")
 
 class LoginForm(Form):
   username = TextField('Username', [wtforms.validators.Required("Please enter a username")])
-  password = PasswordField('New Password', [wtforms.validators.Required("Please enter a password")])
+  password = PasswordField('Password', [wtforms.validators.Required("Please enter a password")])
   submit = SubmitField("Login")
 
 class CreateTeamForm(Form):
@@ -52,14 +52,14 @@ class UpdateMemberForm(Form):
   height = DecimalField('Height \n(In CM)')
   role = SelectField('Role', choices=roles)
   paddle_side = SelectField('Paddle Side', choices=paddle_side_choices)
-  date_of_birth = DateField('Date of Birth \n(YYYY-MM-DD)', format='%Y-%m-%d')
+  date_of_birth = DateField('Date of Birth', format='%Y-%m-%d')
   submit = SubmitField("Update")
 
 class CreateRegattaForm(Form):
   name = TextField('Name', [wtforms.validators.Length(min=1, max=50)])
   raceLength = IntegerField('Length \n(Meters)')
   location = TextField('Location')
-  raceDate = DateField('Date \n(YYYY-MM-DD)', format='%Y-%m-%d')
+  raceDate = DateField('Date', format='%Y-%m-%d')
   city = SelectField('City', [wtforms.validators.Required("Please enter a city")], choices=city_choices)
   province = SelectField('Province', [wtforms.validators.Required("Please enter a province")], choices=province_choices)
   submit = SubmitField("Create")

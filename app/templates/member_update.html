@@ -1,46 +1,48 @@
 {% extends "base.html" %}
 {% block body %}
-<h2>Update Member</h2>
 
-  {% if error %}
-    <p class="error"><strong>Error:</strong> {{ error }}
-  {% endif %}
+<div class="text-center">
+  <div class="col-sm-4 col-sm-offset-4">
+    <h2>Update Member</h2>
 
-  <form class="form-horizontal" action="{{ url_for('update_member', team_id=team_id, member_id=member_id) }}" method=post>
-    {{ form.hidden_tag() }}
+      {% if error %}
+        <p class="error"><strong>Error:</strong> {{ error }}</p>
+      {% endif %}
 
-    <div class="form-group">
-      <label for="inputName" class="col-sm-1 control-label">{{ form.name.label }}</label>
-      {{ form.name }}
+      <form class="form-horizontal" action="{{ url_for('update_member', team_id=team_id, member_id=member_id) }}" method=post>
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+          {{ form.name(class_="form-control", placeholder="Name") }}
+        </div>
+
+        <div class="form-group">
+          {{ form.weight(class_="form-control", placeholder="Weight (Pounds)") }}
+        </div>
+
+        <div class="form-group">
+          {{ form.height(class_="form-control", placeholder="Height (CM)") }}
+        </div>
+
+        <div class="form-group">
+          <label for="inputRole" class="control-label">{{ form.role.label }}</label>
+          {{ form.role(class_="form-control") }}
+        </div>
+
+        <div class="form-group">
+          <label for="inputPaddleSide" class="control-label">{{ form.paddle_side.label }}</label>
+          {{ form.paddle_side(class_="form-control") }}
+        </div>
+
+        <div class="form-group">
+          <label for="inputDateOfBirth" class="control-label">{{ form.date_of_birth.label }}</label>
+          {{ form.date_of_birth(class_="form-control") }}
+        </div>
+
+        <div class="form-group">
+          {{ form.submit(class_="btn btn-primary") }}
+        </div>
+      </form>
     </div>
-
-    <div class="form-group">
-      <label for="inputWeight" class="col-sm-1 control-label">{{ form.weight.label }}</label>
-    {{ form.weight }}
-    </div>
-
-    <div class="form-group">
-      <label for="inputHeight" class="col-sm-1 control-label">{{ form.height.label }}</label>
-    {{ form.height }}
-    </div>
-
-    <div class="form-group">
-      <label for="inputRole" class="col-sm-1 control-label">{{ form.role.label }}</label>
-    {{ form.role }}
-    </div>
-
-    <div class="form-group">
-      <label for="inputPaddleSide" class="col-sm-1 control-label">{{ form.paddle_side.label }}</label>
-    {{ form.paddle_side }}
-    </div>
-
-    <div class="form-group">
-      <label for="inputDateOfBirth" class="col-sm-1 control-label">{{ form.date_of_birth.label }}</label>
-    {{ form.date_of_birth }}
-    </div>
-
-    <div class="form-group">
-    {{ form.submit }}
-    </div>
-  </form>
+  </div>
 {% endblock %}

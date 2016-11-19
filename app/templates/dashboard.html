@@ -4,8 +4,33 @@
     <h1>Dashboard</h1>
     <a href="/teams/new" class="btn btn-primary">Create New Team</a>
     <h3>My Teams</h3>
-    {% for team in teams %}
-      <div><a href="{{ url_for('showteam', team_id=team["teamId"]) }}">{{ team['name'] }}</a></div>
-    {% endfor %}
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th>Team ID</th>
+          <th>Team Name</th>
+          <th>Practice Cost</th>
+          <th>Admin ID</th>
+          <th>City</th>
+          <th>Province</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for team in teams %}
+          <tr>
+            <td>
+                <form action="{{ url_for('showteam', team_id=team["teamId"]) }}">
+                  <input class="btn btn-primary" type="submit" name="team" value={{team["teamId"]}}></input>
+                </form>
+              </td>
+            <td>{{team["name"]}}</td>
+            <td>{{team["practiceCost"]}}</td>
+            <td>{{team["username"]}}</td>
+            <td>{{team["regionCity"]}}</td>
+            <td>{{team["regionProvince"]}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 {% endblock %}
