@@ -135,6 +135,10 @@ VALUES
 INSERT INTO RaceResult
 VALUES
 (14, 4, 2.75, 3, 4);
+INSERT INTO RaceResult
+VALUES
+(15, 1, 2.75, 3, 4);
+
 
 INSERT INTO PaddleOwns
 VALUES

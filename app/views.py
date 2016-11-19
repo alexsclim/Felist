@@ -404,6 +404,21 @@ def showraceresults(regatta_id):
   regatta = query_service.get_regatta_by_id(regatta_id)[0]
   return render_template('raceResults.html', raceResults=raceResults, average_time=average_time, regatta=regatta)
 
+@app.route('/chart')
+def chart():
+    cur = mysql.connection.cursor()
+    query_service = QueryService(cur)
+    leaderboard = query_service.get_leaderboard()
+    numberOfTeams = query_service.get_number_of_teams_from_leaderboard()
+
+    labels = []
+    values = []
+    for x in range(0, numberOfTeams):
+      labels.append(leaderboard[x]['name'])
+      values.append(leaderboard[x]['COUNT(resultId)'])
+
+    return render_template('chart.html', values=values, labels=labels)
+
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
   form = ContactForm()
