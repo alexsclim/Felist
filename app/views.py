@@ -174,6 +174,9 @@ def add_member(team_id):
 
   if teamOwner == session.get('username'):
     if request.method == "POST":
+      if form.validate() == False:
+        error = "Validation failed"
+        return render_template('member_new.html', form=form, error=error)
       name = form.name.data
       weight = form.weight.data
       height = form.height.data
@@ -184,6 +187,7 @@ def add_member(team_id):
       member_id = last_id + 1
 
       try:
+
         query_service.create_member(conn, member_id, name, weight, height, role, paddle_side, date_of_birth, team_id)
         flash("Member was created!")
         return redirect(url_for('showteam', team_id=team_id))
@@ -205,6 +209,9 @@ def update_member(team_id, member_id):
   form = UpdateMemberForm(request.form)
 
   if 'Update' in request.form.values():
+    if form.validate() == False:
+      error = "Validation failed"
+      return render_template('member_update.html', form=form, team_id=team_id, member_id=member_id, error=error)
     name = form.name.data
     weight = form.weight.data
     height = form.height.data
@@ -314,7 +321,7 @@ def createteam():
 
   if request.method == 'POST':
     if form.validate() == False:
-      error = "Cannot insert cost as a string, please enter a number."
+      error = "Validation failed"
       return render_template('new_team.html', form=form, error=error)
     team_name = form.name.data
     practice_cost = form.practice_cost.data
@@ -346,7 +353,7 @@ def new_regatta():
 
   if request.method == 'POST':
     if form.validate() == False:
-      error = "Cannot create"
+      error = "Validation Failed"
       return render_template('new_regatta.html', form=form, error=error)
     name = form.name.data
     raceLength = form.raceLength.data

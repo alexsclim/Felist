@@ -1,38 +1,56 @@
 {% extends "base.html" %}
 {% block body %}
-<h2>Create New Team</h2>
+  <div class="text-center">
+    <div class="col-sm-4 col-sm-offset-4">
+      <h2>Create New Team</h2>
 
-  {% if error %}
-    <p class="error"><strong>Error:</strong> {{ error }}
-  {% endif %}
+      {% if error %}
+        <p class="flash"><strong>Error:</strong> {{ error }}</p>
+      {% endif %}
 
-  <form class="form-horizontal" action="{{ url_for('createteam') }}" method=post>
-    {{ form.hidden_tag() }}
+      {% for message in form.name.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
 
-    <div class="form-group">
-      <label for="inputUsername" class="col-sm-1 control-label">{{ form.name.label }}</label>
-      {{ form.name }}
+      {% for message in form.practice_cost.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
+
+      {% for message in form.city.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
+
+      {% for message in form.province.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
+
+      <form class="form-horizontal" action="{{ url_for('createteam') }}" method=post>
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+          {{ form.name(class_="form-control", placeholder="Team Name") }}
+        </div>
+
+        <div class="form-group">
+          {{ form.practice_cost(class_="form-control", placeholder="Practice Cost") }}
+        </div>
+
+        <div class="form-group">
+          <label for="inputCity" class="control-label">{{ form.city.label }}</label>
+          {{ form.city(class_="form-control") }}
+        </div>
+
+        <div class="form-group">
+          <label for="inputProvince" class="control-label">{{ form.province.label }}</label>
+          {{ form.province(class_="form-control") }}
+        </div>
+
+        {{ form.member_id }}
+
+        <div class="form-group">
+        {{ form.submit(class_="btn btn-primary") }}
+        </div>
+      </form>
     </div>
-
-    <div class="form-group">
-      <label for="inputCost" class="col-sm-1 control-label">{{ form.practice_cost.label }}</label>
-    {{ form.practice_cost }}
-    </div>
-
-    <div class="form-group">
-      <label for="inputCity" class="col-sm-1 control-label">{{ form.city.label }}</label>
-    {{ form.city }}
-    </div>
-
-    <div class="form-group">
-      <label for="inputProvince" class="col-sm-1 control-label">{{ form.province.label }}</label>
-    {{ form.province }}
-    </div>
-
-    {{ form.member_id }}
-
-    <div class="form-group">
-    {{ form.submit }}
-    </div>
-  </form>
+  </div>
 {% endblock %}

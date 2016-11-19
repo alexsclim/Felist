@@ -1,57 +1,57 @@
 {% extends "alternate_base.html" %}
 {% block body %}
-  <h2>Contact Us</h2>
+  <div class="text-center">
+    <div class="col-sm-4 col-sm-offset-4">
+      <h2>Contact Us</h2>
 
-  {% if success %}
-    <p>Thank you for your message. We'll get back to you shortly.</p>
+        {% if success %}
+          <p>Thank you for your message. We'll get back to you shortly.</p>
 
-  {% else %}
+        {% else %}
 
-    {% for message in form.name.errors %}
-      <div class="flash">{{ message }}</div>
-    {% endfor %}
+          {% for message in form.name.errors %}
+            <div class="flash">{{ message }}</div>
+          {% endfor %}
 
-    {% for message in form.email.errors %}
-      <div class="flash">{{ message }}</div>
-    {% endfor %}
+          {% for message in form.email.errors %}
+            <div class="flash">{{ message }}</div>
+          {% endfor %}
 
-    {% for message in form.subject.errors %}
-      <div class="flash">{{ message }}</div>
-    {% endfor %}
+          {% for message in form.subject.errors %}
+            <div class="flash">{{ message }}</div>
+          {% endfor %}
 
-    {% for message in form.message.errors %}
-      <div class="flash">{{ message }}</div>
-    {% endfor %}
+          {% for message in form.message.errors %}
+            <div class="flash">{{ message }}</div>
+          {% endfor %}
 
-    <form class="form-horizontal" action="{{ url_for('contact') }}" method=post>
-      {{ form.hidden_tag() }}
+        <form class="form-horizontal" action="{{ url_for('contact') }}" method=post>
+            {{ form.hidden_tag() }}
 
-      <div class="form-group">
-        <label for="inputName" class="col-sm-1 control-label">{{ form.name.label }}</label>
-        {{ form.name }}
+          <div class="form-group">
+            {{ form.name(class_="form-control", placeholder="Name") }}
+          </div>
+
+          <div class="form-group">
+            {{ form.email(class_="form-control", placeholder="Email Address") }}
+          </div>
+
+          <div class="form-group">
+            {{ form.subject(class_="form-control", placeholder="Subject") }}
+          </div>
+
+          <div class="form-group">
+            {{ form.message(class_="form-control", placeholder="Message") }}
+          </div>
+
+          <div class="form-group">
+          {{ form.submit(class_="btn btn-primary") }}
+          </div>
+        </form>
+
+        <a href="/">Back to home</a>
       </div>
-
-      <div class="form-group">
-        <label for="inputEmail" class="col-sm-1 control-label">{{ form.email.label }}</label>
-      {{ form.email }}
-      </div>
-
-      <div class="form-group">
-        <label for="inputSubject" class="col-sm-1 control-label">{{ form.subject.label }}</label>
-      {{ form.subject }}
-      </div>
-
-      <div class="form-group">
-        <label for="inputMessage" class="col-sm-1 control-label">{{ form.message.label }}</label>
-      {{ form.message }}
-      </div>
-
-      <div class="form-group">
-      {{ form.submit }}
-      </div>
-    </form>
-
-    <a href="/">Back to home</a>
+    </div>
 
   {% endif %}
 {% endblock %}
