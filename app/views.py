@@ -73,6 +73,10 @@ def teams():
       teams = query_service.search_teams(search)
 
       return render_template('teams.html', teams=teams)
+    if 'Clear Search' in request.form.values():
+      teams = query_service.get_teams()
+
+      return render_template('teams.html', teams=teams)
   else:
     teams = query_service.get_teams()
 
