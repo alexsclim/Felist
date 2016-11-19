@@ -38,7 +38,7 @@ class CreateTeamForm(Form):
   submit = SubmitField("Create")
 
 class CreateMemberForm(Form):
-  name = TextField('Member Name', [wtforms.validators.Length(min=1, max=50)])
+  name = TextField('Member Name', [wtforms.validators.Length(min=1, max=50), wtforms.validators.Required("Please enter a name")])
   weight = DecimalField('Weight \n(Pounds)')
   height = DecimalField('Height \n(In CM)')
   role = SelectField('Role', choices=roles)
@@ -47,7 +47,7 @@ class CreateMemberForm(Form):
   submit = SubmitField("Create")
 
 class UpdateMemberForm(Form):
-  name = TextField('Member Name', [wtforms.validators.Length(min=1, max=50)])
+  name = TextField('Member Name', [wtforms.validators.Length(min=1, max=50), wtforms.validators.Required("Please enter a name")])
   weight = DecimalField('Weight \n(Pounds)')
   height = DecimalField('Height \n(In CM)')
   role = SelectField('Role', choices=roles)
@@ -56,9 +56,9 @@ class UpdateMemberForm(Form):
   submit = SubmitField("Update")
 
 class CreateRegattaForm(Form):
-  name = TextField('Name', [wtforms.validators.Length(min=1, max=50)])
-  raceLength = IntegerField('Length \n(Meters)')
-  location = TextField('Location')
+  name = TextField('Name', [wtforms.validators.Length(min=1, max=50), wtforms.validators.Required("Please enter a name")])
+  raceLength = IntegerField('Length \n(Meters)', [wtforms.validators.Required("Please enter a race length")])
+  location = TextField('Location', [wtforms.validators.Required("Please enter a location")])
   raceDate = DateField('Date', format='%Y-%m-%d')
   city = SelectField('City', [wtforms.validators.Required("Please enter a city")], choices=city_choices)
   province = SelectField('Province', [wtforms.validators.Required("Please enter a province")], choices=province_choices)

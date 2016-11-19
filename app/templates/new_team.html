@@ -5,8 +5,24 @@
       <h2>Create New Team</h2>
 
       {% if error %}
-        <p class="error"><strong>Error:</strong> {{ error }}</p>
+        <p class="flash"><strong>Error:</strong> {{ error }}</p>
       {% endif %}
+
+      {% for message in form.name.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
+
+      {% for message in form.practice_cost.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
+
+      {% for message in form.city.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
+
+      {% for message in form.province.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
 
       <form class="form-horizontal" action="{{ url_for('createteam') }}" method=post>
         {{ form.hidden_tag() }}

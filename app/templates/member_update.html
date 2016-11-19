@@ -9,6 +9,30 @@
         <p class="error"><strong>Error:</strong> {{ error }}</p>
       {% endif %}
 
+      {% for message in form.name.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
+
+      {% for message in form.weight.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
+
+      {% for message in form.height.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
+
+      {% for message in form.role.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
+
+      {% for message in form.paddle_side.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
+
+      {% for message in form.date_of_birth.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
+
       <form class="form-horizontal" action="{{ url_for('update_member', team_id=team_id, member_id=member_id) }}" method=post>
         {{ form.hidden_tag() }}
 

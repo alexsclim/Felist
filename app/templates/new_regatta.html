@@ -8,6 +8,30 @@
         <p class="error"><strong>Error:</strong> {{ error }}</p>
       {% endif %}
 
+      {% for message in form.name.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
+
+      {% for message in form.raceLength.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
+
+      {% for message in form.location.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
+
+      {% for message in form.raceDate.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
+
+      {% for message in form.city.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
+
+      {% for message in form.province.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
+
       <form class="form-horizontal" action="{{ url_for('new_regatta') }}" method=post>
         {{ form.hidden_tag() }}
 

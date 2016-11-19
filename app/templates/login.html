@@ -2,32 +2,40 @@
 {% block body %}
   <div class="text-center margin-top">
     <div class="col-sm-4 col-sm-offset-4">
-    <h1>Welcome to Felist!</h1>
+      <h1>Welcome to Felist!</h1>
 
-    <h2 class="margin-top">Login</h2>
+      <h2 class="margin-top">Login</h2>
 
-    {% if error %}
-      <p class="error"><strong>Error:</strong> {{ error }}</p>
-    {% endif %}
+      {% if error %}
+        <p class="flash"><strong>Error:</strong> {{ error }}</p>
+      {% endif %}
 
-    <form class="form-horizontal" action="{{ url_for('login') }}" method=post>
-      {{ form.hidden_tag() }}
+      {% for message in form.username.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
 
-      <div class="form-group">
-        {{ form.username(class_="form-control", placeholder="Username") }}
-      </div>
+      {% for message in form.password.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
 
-      <div class="form-group">
-      {{ form.password(class_="form-control", placeholder="Password") }}
-      </div>
+      <form class="form-horizontal" action="{{ url_for('login') }}" method=post>
+        {{ form.hidden_tag() }}
 
-      <div class="form-group">
-      {{ form.submit(class_="btn btn-primary") }}
-      </div>
-    </form>
+        <div class="form-group">
+          {{ form.username(class_="form-control", placeholder="Username") }}
+        </div>
 
-    <a href="{{ url_for('register') }}" class="btn btn-secondary">Register Here</a>
-    <a href="{{ url_for('contact') }}" class="btn btn-secondary">Contact Us</a>
+        <div class="form-group">
+        {{ form.password(class_="form-control", placeholder="Password") }}
+        </div>
+
+        <div class="form-group">
+        {{ form.submit(class_="btn btn-primary") }}
+        </div>
+      </form>
+
+      <a href="{{ url_for('register') }}" class="btn btn-secondary">Register Here</a>
+      <a href="{{ url_for('contact') }}" class="btn btn-secondary">Contact Us</a>
     </div>
   </div>
 {% endblock %}

@@ -13,6 +13,14 @@
           <div class="flash">{{ message }}</div>
         {% endfor %}
 
+        {% for message in form.password.errors %}
+          <div class="flash">{{ message }}</div>
+        {% endfor %}
+
+        {% for message in form.confirm.errors %}
+          <div class="flash">{{ message }}</div>
+        {% endfor %}
+
         <form class="form-horizontal" action="{{ url_for('register') }}" method=post>
           {{ form.hidden_tag() }}
 
