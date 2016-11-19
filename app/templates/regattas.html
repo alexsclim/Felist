@@ -46,13 +46,15 @@
       {% endfor %}
     </tbody>
   </table>
-  <div class="row">
-    <select class="form-group col-sm-4" name="selected-province">
-      {% for province in provinces %}
-        <option value="{{province["regionProvince"]}}" class="col-sm-2">{{province["regionProvince"]}}</option>
-      {% endfor %}
-    </select>
-    <input type="submit" name="search-button" value="Find Regattas With All Teams From This Region" class="btn btn-primary margin-left"></input>
-  </div>
+  <form action="" method="post">
+    <div class="row">
+      <select class="form-group col-sm-4" name="selected-province">
+        {% for province in provinces %}
+          <option value="{{province["regionProvince"]}}" class="col-sm-2">{{province["regionProvince"]}}</option>
+        {% endfor %}
+      </select>
+      <input type="submit" name="search-button" value="Find Regattas With All Teams From This Region" class="btn btn-primary margin-left"></input>
+    </div>
+  </form>
 </div>
 {% endblock %}

@@ -1,12 +1,13 @@
 #logo {
   margin-right: 10px;
   font-size: 1.9em;
-  color: #fff;
-  text-transform: uppercase;
-  letter-spacing: -1px;
-  padding-top: 9px;
-  font-weight: bold;
-  padding-left: 2px;
+  font-family: "Bradley Hand ITC";
+  color: #ffffff;
+}
+
+.navbar-header {
+  width: 300px;
+  height: 50px;
 }
 
 .flash {
@@ -16,7 +17,7 @@
 }
 
 .icon-logo {
-  width: 70px;
+  width: 25%;
   height: 50px;
 }
 
