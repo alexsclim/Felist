@@ -412,7 +412,7 @@ def contact():
     if form.validate() == False:
       return render_template('contact.html', form=form)
     else:
-      msg = Message(form.subject.data, sender='dragonboatfelist@gmail.com', recipients=['clarencelam95@gmail.com'])
+      msg = Message(form.subject.data, sender='dragonboatfelist@gmail.com', recipients=['clarencelam95@gmail.com', 'alexsclim@gmail.com'])
       msg.body = """
       From: %s
       Email: %s
