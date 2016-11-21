@@ -36,6 +36,8 @@ def regattas():
   cur = mysql.connection.cursor()
   query_service = QueryService(cur)
 
+  fastest_avg = query_service.fastest_avg_race()
+
   if request.method == "POST":
     if 'Search Regattas' in request.form.values():
       search = request.form['search-input']
@@ -47,7 +49,7 @@ def regattas():
     regattas = query_service.get_regattas()
 
   provinces = query_service.get_distinct_provinces()
-  return render_template('regattas.html', regattas=regattas, provinces=provinces)
+  return render_template('regattas.html', regattas=regattas, provinces=provinces, fastest_avg = fastest_avg)
 
 @app.route('/regattas/<regatta_id>/delete', methods=['POST'])
 @login_required
@@ -67,20 +69,24 @@ def teams():
   cur = mysql.connection.cursor()
   query_service = QueryService(cur)
 
+  avg_members = query_service.avg_members_per_team()
+  fastest_avg_time = query_service.fastest_avg_team()
+
+
   if request.method == "POST":
     if 'Search Team' in request.form.values():
       search = request.form['search-input']
       teams = query_service.search_teams(search)
 
-      return render_template('teams.html', teams=teams)
+      return render_template('teams.html', teams=teams, avg=avg_members, fastest_avg = fastest_avg_time)
     if 'Clear Search' in request.form.values():
       teams = query_service.get_teams()
 
-      return render_template('teams.html', teams=teams)
+      return render_template('teams.html', teams=teams, avg=avg_members, fastest_avg = fastest_avg_time)
   else:
     teams = query_service.get_teams()
 
-    return render_template('teams.html', teams=teams)
+    return render_template('teams.html', teams=teams, avg=avg_members, fastest_avg = fastest_avg_time)
 
 @app.route('/members', methods=['GET', 'POST'])
 @login_required

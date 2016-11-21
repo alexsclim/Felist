@@ -220,3 +220,18 @@ class QueryService:
     data = self.cursor.execute("SELECT DISTINCT regionProvince FROM Team")
     provinces = self.cursor.fetchall()
     return provinces
+
+  def avg_members_per_team(self):
+    data = self.cursor.execute("SELECT AVG(member_count) FROM (SELECT count(memberId) as member_count FROM member GROUP BY teamId) as count")
+    avg_members = self.cursor.fetchall()
+    return avg_members
+
+  def fastest_avg_team(self):
+    data = self.cursor.execute("SELECT MIN(first_race) FROM (SELECT AVG(timeSeconds) as first_race FROM RaceResult GROUP BY teamId) as races")
+    fastest_start = self.cursor.fetchall()
+    return fastest_start
+
+  def fastest_avg_race(self):
+    data = self.cursor.execute("SELECT fastest.fastest_avg, names.name FROM (SELECT MIN(first_race) as fastest_avg FROM (SELECT AVG(timeSeconds) as first_race, regattaId FROM RaceResult GROUP BY regattaId) as times) as fastest, (SELECT AVG(timeSeconds) as first_race, regattaId FROM RaceResult GROUP BY regattaId) as ids,(SELECT name, regattaId from Regatta) as names WHERE ids.first_race=fastest.fastest_avg AND ids.regattaId=names.regattaId")
+    fastest_start = self.cursor.fetchall()
+    return fastest_start

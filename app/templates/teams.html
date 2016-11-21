@@ -2,6 +2,8 @@
 {% block body %}
 <div class="container">
   <h2>All Dragonboat Teams</h2>
+  <h5>Average member count: {{avg[0]["AVG(member_count)"]}}</h5>
+  <h5>Fastest Average Time: {{fastest_avg[0]["MIN(first_race)"]}}</h5>
   <form action="" method="post">
     <input type="input" name="search-input"></input>
     <input type="submit" name="search-button" value="Search Team" class="btn btn-primary"></input>
