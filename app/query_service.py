@@ -209,3 +209,12 @@ class QueryService:
     data = self.cursor.execute("SELECT * from Member m, PaddleOwns p where m.memberId={0} AND p.memberId={1}".format(member_id, member_id))
     member_with_paddle = self.cursor.fetchall()
     return member_with_paddle
+
+  def move_to_freeagent(self, conn, team_id):
+    data = self.cursor.execute("UPDATE Member SET teamId = 0 where teamId={0}".format(team_id))
+    conn.commit()
+    return
+  def move_to_team(self, conn, team_id, member_id):
+    data = self.cursor.execute("UPDATE Member SET teamId={0} where memberId={1}".format(team_id, member_id))
+    conn.commit()
+    return

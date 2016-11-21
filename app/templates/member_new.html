@@ -43,4 +43,41 @@
     {{ form.submit }}
     </div>
   </form>
+
+  <h2>Or choose from free agents</h2>
+
+  <div class="container">
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Member Name</th>
+        <th>Weight</th>
+        <th>Height</th>
+        <th>Role</th>
+        <th>Paddle Size</th>
+        <th>Date Of Birth</th>
+        <th>Add</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for member in members %}
+        <tr>
+          <td>{{member["memberId"]}}</td>
+          <td>{{member["memberName"]}}</td>
+          <td>{{member["weight"]}}</td>
+          <td>{{member["height"]}}</td>
+          <td>{{member["role"]}}</td>
+          <td>{{member["paddleSide"]}}</td>
+          <td>{{member["dateOfBirth"]}}</td>
+          <td>
+            <form action="{{url_for('add_free_agent', team_id=team_id, member_id=member["memberId"])}}" method="post">
+              <input class="btn btn-danger" type="submit" value="Add">
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
 {% endblock %}

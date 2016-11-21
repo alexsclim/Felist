@@ -172,6 +172,7 @@ def delete_team(team_id):
     teamOwner = query_service.get_user_by_team_id(team_id)
 
     if teamOwner == session.get('username'):
+        query_service.move_to_freeagent(conn, team_id)
         query_service.delete_team(conn, team_id)
         flash("Team was deleted!")
         return redirect(url_for('teams'))
@@ -207,7 +208,8 @@ def add_member(team_id):
         flash("There was an error creating the member.")
         return redirect(url_for('add_member', team_id=team_id))
     else:
-      return render_template('member_new.html', form=form, team_id=team_id)
+      data = query_service.get_members_from_team(0)
+      return render_template('member_new.html', form=form, team_id=team_id, members=data)
   else:
     flash("Cannot add member. You are not the owner of the team")
     return redirect(url_for('showteam', team_id=team_id))
@@ -433,3 +435,14 @@ def contact():
 
   elif request.method == 'GET':
     return render_template('contact.html', form=form)
+
+@app.route('/teams/<team_id>/members/<member_id>/new', methods=['POST'])
+def add_free_agent(team_id, member_id):
+    conn = mysql.connection
+    cur = conn.cursor()
+    query_service = QueryService(cur)
+
+    query_service.move_to_team(conn, team_id, member_id)
+    #flash(team_id)
+    flash("member was added!")
+    return redirect(url_for('showteam', team_id=team_id))
