@@ -17,7 +17,6 @@ class QueryService:
     regattas = self.cursor.fetchall()
     return regattas
 
-
   def get_leaderboard(self):
     data = self.cursor.execute("SELECT COUNT(resultId), name FROM RaceResult Ra, Team T WHERE Ra.teamId = T.teamId AND Ranking = 1 GROUP BY T.teamId")
     leaderboard = self.cursor.fetchall()
@@ -171,6 +170,11 @@ class QueryService:
     conn.commit()
     return
 
+  def delete_team(self, conn, teamId):
+      data = self.cursor.execute("Delete from Team WHERE teamId = %s", [teamId])
+      conn.commit()
+      return
+
   def sort_member_names_by_team_asc(self, team_id):
     data = self.cursor.execute("SELECT * from Member where teamId=%s order by memberName asc", [team_id])
     members = self.cursor.fetchall()
@@ -215,6 +219,16 @@ class QueryService:
     data = self.cursor.execute("SELECT * from Member m, PaddleOwns p where m.memberId={0} AND p.memberId={1}".format(member_id, member_id))
     member_with_paddle = self.cursor.fetchall()
     return member_with_paddle
+
+  def move_to_freeagent(self, conn, team_id):
+    data = self.cursor.execute("UPDATE Member SET teamId = 0 where teamId={0}".format(team_id))
+    conn.commit()
+    return
+    
+  def move_to_team(self, conn, team_id, member_id):
+    data = self.cursor.execute("UPDATE Member SET teamId={0} where memberId={1}".format(team_id, member_id))
+    conn.commit()
+    return
 
   def get_distinct_provinces(self):
     data = self.cursor.execute("SELECT DISTINCT regionProvince FROM Team")

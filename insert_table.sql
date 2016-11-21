@@ -25,6 +25,9 @@ VALUES
 INSERT INTO Region
 VALUES
 ('Victoria', 'British Columbia');
+INSERT INTO Region
+VALUES
+('No City', 'No Province');
 
 INSERT INTO Regatta
 VALUES
@@ -43,6 +46,9 @@ INSERT INTO User
 VALUES
 ('user', 'pbkdf2:sha1:1000$xdwaXArt$a8c041f472a31f5929e1aa3f0a9881134ff5dee3'); -- password: pass
 
+INSERT INTO Team
+VALUES
+(0, 'Free-agents', 0, 'admin', 'No City', 'No Province');
 INSERT INTO Team
 VALUES
 (1, 'DragonHearts Reborn', 234.80, 'admin', 'Vancouver', 'British Columbia');

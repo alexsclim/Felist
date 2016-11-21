@@ -14,9 +14,10 @@
         <th>Team ID</th>
         <th>Team Name</th>
         <th>Practice Cost</th>
-        <th>Admin ID</th>
+        <th>Owner</th>
         <th>City</th>
         <th>Province</th>
+        <th>Delete</th>
       </tr>
     </thead>
     <tbody>
@@ -32,6 +33,11 @@
       		<td>{{team["username"]}}</td>
       		<td>{{team["regionCity"]}}</td>
       		<td>{{team["regionProvince"]}}</td>
+          <td>
+            <form action="{{url_for('delete_team', team_id=team["teamId"])}}" method="post">
+              <input class="btn btn-danger" type="submit" value="delete">
+            </form>
+          </td>
       	</tr>
       {% endfor %}
     </tbody>
