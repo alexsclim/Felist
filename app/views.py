@@ -45,6 +45,8 @@ def regattas():
     elif 'Find Regattas With All Teams From This Region' in request.form.values():
       search = request.form['selected-province']
       regattas = query_service.search_regattas_with_all_teams_from_province(search)
+    elif 'Clear Search' in request.form.values():
+      regattas = query_service.get_regattas()
   else:
     regattas = query_service.get_regattas()
 
@@ -204,7 +206,7 @@ def add_member(team_id):
     if request.method == "POST":
       if form.validate() == False:
         error = "Validation failed"
-        return render_template('member_new.html', form=form, error=error)
+        return render_template('member_new.html', form=form, error=error, team_id=team_id)
       name = form.name.data
       weight = form.weight.data
       height = form.height.data
