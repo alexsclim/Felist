@@ -64,11 +64,14 @@ VALUES
 INSERT INTO Team
 VALUES
 (5, 'Xhibit', 1000.80, 'admin', 'Vancouver', 'British Columbia');
+INSERT INTO Team
+VALUES
+(6, 'Felix Best Team', 1000.80, 'admin', 'Toronto', 'Ontario');
 
 
 INSERT INTO Member
 VALUES
-(1, 'Alex', 170.80, 6.2, 'paddler', 'left', '1995-12-18', 1);
+(1, 'Alex', 170.80, 6.2, 'paddler', 'left', '1995-12-17', 1);
 INSERT INTO Member
 VALUES
 (2, 'Clarence', 130.80, 5.8, 'paddler', 'left', '1995-09-20', 1);
@@ -140,7 +143,8 @@ VALUES
 (14, 4, 2.75, 3, 4);
 INSERT INTO RaceResult
 VALUES
-(15, 5, 2.85, 3, 5);
+(15, 1, 2.75, 3, 4);
+
 
 INSERT INTO PaddleOwns
 VALUES

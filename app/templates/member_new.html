@@ -1,46 +1,71 @@
 {% extends "base.html" %}
 {% block body %}
-<h2>Add New Member</h2>
+  <div class="text-center">
+    <div class="col-sm-4 col-sm-offset-4">
+      <h2>Add New Member</h2>
 
-  {% if error %}
-    <p class="error"><strong>Error:</strong> {{ error }}
-  {% endif %}
+      {% if error %}
+        <p class="error"><strong>Error:</strong> {{ error }}</p>
+      {% endif %}
 
-  <form class="form-horizontal" action="{{ url_for('add_member', team_id=team_id) }}" method=post>
-    {{ form.hidden_tag() }}
+      {% for message in form.name.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
 
-    <div class="form-group">
-      <label for="inputName" class="col-sm-1 control-label">{{ form.name.label }}</label>
-      {{ form.name }}
-    </div>
+      {% for message in form.weight.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
 
-    <div class="form-group">
-      <label for="inputWeight" class="col-sm-1 control-label">{{ form.weight.label }}</label>
-    {{ form.weight }}
-    </div>
+      {% for message in form.height.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
 
-    <div class="form-group">
-      <label for="inputHeight" class="col-sm-1 control-label">{{ form.height.label }}</label>
-    {{ form.height }}
-    </div>
+      {% for message in form.role.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
 
-    <div class="form-group">
-      <label for="inputRole" class="col-sm-1 control-label">{{ form.role.label }}</label>
-    {{ form.role }}
-    </div>
+      {% for message in form.paddle_side.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
 
-    <div class="form-group">
-      <label for="inputPaddleSide" class="col-sm-1 control-label">{{ form.paddle_side.label }}</label>
-    {{ form.paddle_side }}
-    </div>
+      {% for message in form.date_of_birth.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
 
-    <div class="form-group">
-      <label for="inputDateOfBirth" class="col-sm-1 control-label">{{ form.date_of_birth.label }}</label>
-    {{ form.date_of_birth }}
-    </div>
+      <form class="form-horizontal" action="{{ url_for('add_member', team_id=team_id) }}" method=post>
+        {{ form.hidden_tag() }}
 
-    <div class="form-group">
-    {{ form.submit }}
+        <div class="form-group">
+          {{ form.name(class_="form-control", placeholder="Name") }}
+        </div>
+
+        <div class="form-group">
+          {{ form.weight(class_="form-control", placeholder="Weight (Pounds)") }}
+        </div>
+
+        <div class="form-group">
+          {{ form.height(class_="form-control", placeholder="Height (CM)") }}
+        </div>
+
+        <div class="form-group">
+          <label for="inputRole" class="control-label">{{ form.role.label }}</label>
+          {{ form.role(class_="form-control") }}
+        </div>
+
+        <div class="form-group">
+          <label for="inputPaddleSide" class="control-label">{{ form.paddle_side.label }}</label>
+          {{ form.paddle_side(class_="form-control") }}
+        </div>
+
+        <div class="form-group">
+          <label for="inputDateOfBirth" class="control-label">{{ form.date_of_birth.label }}</label>
+          {{ form.date_of_birth(class_="form-control") }}
+        </div>
+
+        <div class="form-group">
+          {{ form.submit(class_="btn btn-primary") }}
+        </div>
+      </form>
     </div>
   </form>
 

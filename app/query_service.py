@@ -22,6 +22,11 @@ class QueryService:
     leaderboard = self.cursor.fetchall()
     return leaderboard
 
+  def get_number_of_teams_from_leaderboard(self):
+    data = self.cursor.execute("SELECT DISTINCT teamId FROM RaceResult WHERE Ranking = 1")
+    numberOfTeams = self.cursor.rowcount
+    return numberOfTeams
+
   def get_raceresults_join_team_from_regatta(self, regatta_id):
     data = self.cursor.execute("SELECT* FROM RaceResult, Team WHERE RaceResult.teamId = Team.teamId AND regattaId=%s", [regatta_id])
     raceresults = self.cursor.fetchall()
@@ -143,6 +148,11 @@ class QueryService:
     regattas = self.cursor.fetchall()
     return regattas
 
+  def search_regattas_with_all_teams_from_province(self, search):
+    data = self.cursor.execute('SELECT* FROM Regatta Re WHERE NOT EXISTS (SELECT T.teamId FROM Team T WHERE T.regionProvince = %s AND NOT EXISTS (SELECT Race.teamId FROM RaceResult Race WHERE T.teamId = Race.teamId AND Re.regattaId = Race.regattaId))', [search])
+    regattas = self.cursor.fetchall();
+    return regattas
+
   def search_teams(self, search):
     sql = 'Select * from Team where name like %s'
     args = ['%'+search+'%']
@@ -214,7 +224,13 @@ class QueryService:
     data = self.cursor.execute("UPDATE Member SET teamId = 0 where teamId={0}".format(team_id))
     conn.commit()
     return
+    
   def move_to_team(self, conn, team_id, member_id):
     data = self.cursor.execute("UPDATE Member SET teamId={0} where memberId={1}".format(team_id, member_id))
     conn.commit()
     return
+
+  def get_distinct_provinces(self):
+    data = self.cursor.execute("SELECT DISTINCT regionProvince FROM Team")
+    provinces = self.cursor.fetchall()
+    return provinces

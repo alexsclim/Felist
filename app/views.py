@@ -40,13 +40,14 @@ def regattas():
     if 'Search Regattas' in request.form.values():
       search = request.form['search-input']
       regattas = query_service.search_regattas(search)
-
-      return render_template('regattas.html', regattas=regattas)
-
+    elif 'Find Regattas With All Teams From This Region' in request.form.values():
+      search = request.form['selected-province']
+      regattas = query_service.search_regattas_with_all_teams_from_province(search)
   else:
     regattas = query_service.get_regattas()
 
-    return render_template('regattas.html', regattas=regattas)
+  provinces = query_service.get_distinct_provinces()
+  return render_template('regattas.html', regattas=regattas, provinces=provinces)
 
 @app.route('/regattas/<regatta_id>/delete', methods=['POST'])
 @login_required
@@ -70,6 +71,10 @@ def teams():
     if 'Search Team' in request.form.values():
       search = request.form['search-input']
       teams = query_service.search_teams(search)
+
+      return render_template('teams.html', teams=teams)
+    if 'Clear Search' in request.form.values():
+      teams = query_service.get_teams()
 
       return render_template('teams.html', teams=teams)
   else:
@@ -191,6 +196,9 @@ def add_member(team_id):
 
   if teamOwner == session.get('username'):
     if request.method == "POST":
+      if form.validate() == False:
+        error = "Validation failed"
+        return render_template('member_new.html', form=form, error=error)
       name = form.name.data
       weight = form.weight.data
       height = form.height.data
@@ -201,6 +209,7 @@ def add_member(team_id):
       member_id = last_id + 1
 
       try:
+
         query_service.create_member(conn, member_id, name, weight, height, role, paddle_side, date_of_birth, team_id)
         flash("Member was created!")
         return redirect(url_for('showteam', team_id=team_id))
@@ -223,6 +232,9 @@ def update_member(team_id, member_id):
   form = UpdateMemberForm(request.form)
 
   if 'Update' in request.form.values():
+    if form.validate() == False:
+      error = "Validation failed"
+      return render_template('member_update.html', form=form, team_id=team_id, member_id=member_id, error=error)
     name = form.name.data
     weight = form.weight.data
     height = form.height.data
@@ -332,7 +344,7 @@ def createteam():
 
   if request.method == 'POST':
     if form.validate() == False:
-      error = "Cannot insert cost as a string, please enter a number."
+      error = "Validation failed"
       return render_template('new_team.html', form=form, error=error)
     team_name = form.name.data
     practice_cost = form.practice_cost.data
@@ -364,7 +376,7 @@ def new_regatta():
 
   if request.method == 'POST':
     if form.validate() == False:
-      error = "Cannot create"
+      error = "Validation Failed"
       return render_template('new_regatta.html', form=form, error=error)
     name = form.name.data
     raceLength = form.raceLength.data
@@ -415,6 +427,21 @@ def showraceresults(regatta_id):
   regatta = query_service.get_regatta_by_id(regatta_id)[0]
   return render_template('raceResults.html', raceResults=raceResults, average_time=average_time, regatta=regatta)
 
+@app.route('/chart')
+def chart():
+    cur = mysql.connection.cursor()
+    query_service = QueryService(cur)
+    leaderboard = query_service.get_leaderboard()
+    numberOfTeams = query_service.get_number_of_teams_from_leaderboard()
+
+    labels = []
+    values = []
+    for x in range(0, numberOfTeams):
+      labels.append(leaderboard[x]['name'])
+      values.append(leaderboard[x]['COUNT(resultId)'])
+
+    return render_template('chart.html', values=values, labels=labels)
+
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
   form = ContactForm()
@@ -423,7 +450,7 @@ def contact():
     if form.validate() == False:
       return render_template('contact.html', form=form)
     else:
-      msg = Message(form.subject.data, sender='dragonboatfelist@gmail.com', recipients=['clarencelam95@gmail.com'])
+      msg = Message(form.subject.data, sender='dragonboatfelist@gmail.com', recipients=['clarencelam95@gmail.com', 'alexsclim@gmail.com'])
       msg.body = """
       From: %s
       Email: %s

@@ -1,46 +1,71 @@
 {% extends "base.html" %}
 {% block body %}
-<h2>Create New Regatta</h2>
+<div class="text-center">
+  <div class="col-sm-4 col-sm-offset-4">
+    <h2>Create New Regatta</h2>
 
-  {% if error %}
-    <p class="error"><strong>Error:</strong> {{ error }}
-  {% endif %}
+      {% if error %}
+        <p class="error"><strong>Error:</strong> {{ error }}</p>
+      {% endif %}
 
-  <form class="form-horizontal" action="{{ url_for('new_regatta') }}" method=post>
-    {{ form.hidden_tag() }}
+      {% for message in form.name.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
 
-    <div class="form-group">
-      <label for="inputUsername" class="col-sm-1 control-label">{{ form.name.label }}</label>
-      {{ form.name }}
+      {% for message in form.raceLength.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
+
+      {% for message in form.location.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
+
+      {% for message in form.raceDate.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
+
+      {% for message in form.city.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
+
+      {% for message in form.province.errors %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
+
+      <form class="form-horizontal" action="{{ url_for('new_regatta') }}" method=post>
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+          {{ form.name(class_="form-control", placeholder="Regatta Name") }}
+        </div>
+
+        <div class="form-group">
+        {{ form.raceLength(class_="form-control", placeholder="Race Length") }}
+        </div>
+
+        <div class="form-group">
+        {{ form.location(class_="form-control", placeholder="Location") }}
+        </div>
+
+        <div class="form-group">
+          <label for="inputCity" class="control-label">{{ form.city.label }}</label>
+        {{ form.city(class_="form-control") }}
+        </div>
+
+        <div class="form-group">
+          <label for="inputProvince" class="control-label">{{ form.province.label }}</label>
+        {{ form.province(class_="form-control") }}
+        </div>
+
+       <div class="form-group">
+          <label for="inputCity" class="control-label">{{ form.raceDate.label }}</label>
+        {{ form.raceDate(class_="form-control") }}
+        </div>
+
+        <div class="form-group">
+        {{ form.submit(class_="btn btn-primary") }}
+        </div>
+      </form>
     </div>
-
-    <div class="form-group">
-      <label for="inputCost" class="col-sm-1 control-label">{{ form.raceLength.label }}</label>
-    {{ form.raceLength }}
-    </div>
-
-    <div class="form-group">
-      <label for="inputCity" class="col-sm-1 control-label">{{ form.location.label }}</label>
-    {{ form.location }}
-    </div>
-
-    <div class="form-group">
-      <label for="inputCity" class="col-sm-1 control-label">{{ form.raceDate.label }}</label>
-    {{ form.raceDate }}
-    </div>
-
-    <div class="form-group">
-      <label for="inputCity" class="col-sm-1 control-label">{{ form.city.label }}</label>
-    {{ form.city }}
-    </div>
-
-    <div class="form-group">
-      <label for="inputProvince" class="col-sm-1 control-label">{{ form.province.label }}</label>
-    {{ form.province }}
-    </div>
-
-    <div class="form-group">
-    {{ form.submit }}
-    </div>
-  </form>
+  </div>
 {% endblock %}

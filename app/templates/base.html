@@ -2,22 +2,26 @@
 <html>
   <head>
     <title>Felist</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity=" sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/main.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity=" sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='dragon.ico')}}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src='static/Chart.min.js'></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
     <nav class="navbar navbar-inverse">
       <div class="navbar-header">
-        <a class="navbar-brand" href="/">Felist</a>
+        <a href="/"><img href="/" class="icon-logo" src="{{ url_for('static', filename='dragon.png') }}"></a>
+        <a id="logo" href="/">Felist</a>
       </div>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
         <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
         <li><a href="{{ url_for('leaderboard') }}">Leaderboard</a></li>
         <li><a href="{{ url_for('regattas') }}">Regattas</a></li>
-        <li><a href="{{ url_for('teams') }}">Teams</a></li>
+        <li><a href="{{ url_for('teams') }}">All Teams</a></li>
         <li><a href="{{ url_for('members') }}">Members</a></li>
         <li><a href="{{ url_for('paddles') }}">Paddles</a></li>
         <li><a href="{{ url_for('logout') }}">Logout</a></li>
