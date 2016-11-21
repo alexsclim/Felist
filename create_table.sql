@@ -68,6 +68,8 @@ CREATE TABLE IF NOT EXISTS HasPractice(
   teamId int,
   PRIMARY KEY(practiceId, teamId),
   FOREIGN KEY(teamId) REFERENCES Team(teamId)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS RaceResult(
@@ -81,7 +83,7 @@ CREATE TABLE IF NOT EXISTS RaceResult(
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   FOREIGN KEY(teamId) REFERENCES Team(teamId)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE CASCADE
 );
 
@@ -101,6 +103,8 @@ CREATE TABLE IF NOT EXISTS Participates(
     teamId int,
     regattaId int,
     PRIMARY KEY(teamId, regattaId),
-    FOREIGN KEY(teamId) REFERENCES Team(teamId),
+    FOREIGN KEY(teamId) REFERENCES Team(teamId)
+      ON UPDATE CASCADE
+      ON DELETE CASCADE,
     FOREIGN KEY(regattaId) REFERENCES Regatta(regattaId)
 );
