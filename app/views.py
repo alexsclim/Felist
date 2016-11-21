@@ -213,10 +213,12 @@ def add_member(team_id):
       date_of_birth = form.date_of_birth.data
       last_id = query_service.get_last_member_id()
       member_id = last_id + 1
+      paddle_length = height - 45
 
       try:
 
         query_service.create_member(conn, member_id, name, weight, height, role, paddle_side, date_of_birth, team_id)
+        query_service.create_paddle_rental(conn, member_id, paddle_length)
         flash("Member was created!")
         return redirect(url_for('showteam', team_id=team_id))
       except Exception as e:
