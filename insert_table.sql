@@ -27,6 +27,9 @@ VALUES
 ('Victoria', 'British Columbia');
 INSERT INTO Region
 VALUES
+('Shatin', 'Hong Kong');
+INSERT INTO Region
+VALUES
 ('No City', 'No Province');
 
 INSERT INTO Regatta
@@ -38,6 +41,12 @@ VALUES
 INSERT INTO Regatta
 VALUES
 (3, 500, 'Steveson', 'Steveson Village', '2017-08-22', 'Richmond', 'British Columbia');
+INSERT INTO Regatta
+VALUES
+(4, 500, 'Hong Kong Dragon Boat Regatta', 'Sha Tin Town Centre', '2017-08-23', 'Shatin', 'Hong Kong');
+INSERT INTO Regatta
+VALUES
+(5, 500, 'Ontario Regatta', 'Lake Ontario', '2018-08-24', 'Toronto', 'Ontario');
 
 INSERT INTO User
 VALUES
@@ -63,7 +72,7 @@ VALUES
 (4, 'ZY M', 1000.80, 'admin', 'Vancouver', 'British Columbia');
 INSERT INTO Team
 VALUES
-(5, 'Xhibit', 1000.80, 'admin', 'Vancouver', 'British Columbia');
+(5, 'Xhibit', 1000.80, 'admin', 'Toronto', 'Ontario');
 INSERT INTO Team
 VALUES
 (6, 'Felix Best Team', 1000.80, 'admin', 'Toronto', 'Ontario');
@@ -86,18 +95,34 @@ VALUES
 (5, 'asd', 130.80, 5.8, 'paddler', 'left', '1995-09-20', 2);
 INSERT INTO Member
 VALUES
-(6, 'wqwe', 130.80, 5.8, 'paddler', 'left', '1995-09-20', 1);
-
-
-INSERT INTO HasPractice
+(6, 'Vicky', 65.65, 4.3, 'paddler', 'right', '1995-06-30', 2);
+INSERT INTO Member
 VALUES
-(1, 'Monday', 'False Creek', '19:00', 2, 1);
-INSERT INTO HasPractice
+(7, 'Andrea', 62.23, 4.2, 'paddler', 'right', '1995-09-11', 3);
+INSERT INTO Member
 VALUES
-(2, 'Tuesday', 'Creekside', '20:00', 2, 2);
-INSERT INTO HasPractice
+(8, 'Melissa', 100.10, 5.4, 'paddler', 'left', '1995-09-21', 3);
+INSERT INTO Member
 VALUES
-(3, 'Friday', 'Creekside', '19:00', 2, 2);
+(9, 'Anson', 125.59, 5.8, 'paddler', 'left', '1995-01-03', 4);
+INSERT INTO Member
+VALUES
+(10, 'Lilian', 85.57, 5.7, 'paddler', 'right', '1995-05-27', 4);
+INSERT INTO Member
+VALUES
+(11, 'Kevin', 285.50, 6.2, 'paddler', 'left', '1995-09-23', 4);
+INSERT INTO Member
+VALUES
+(12, 'Alan', 130.80, 5.8, 'paddler', 'right', '1995-07-19', 5);
+INSERT INTO Member
+VALUES
+(13, 'Amy', 110.50, 5.6, 'paddler', 'left', '1995-10-31', 5);
+INSERT INTO Member
+VALUES
+(14, 'Ana', 100.20, 5.4, 'paddler', 'right', '1995-09-20', 6);
+INSERT INTO Member
+VALUES
+(15, 'Kae', 180.25, 5.11, 'paddler', 'left', '1995-09-20', 6);
 
 INSERT INTO RaceResult
 VALUES
@@ -143,8 +168,34 @@ VALUES
 (14, 4, 2.75, 3, 4);
 INSERT INTO RaceResult
 VALUES
-(15, 1, 2.75, 3, 4);
-
+(15, 1, 2.75, 4, 6);
+INSERT INTO RaceResult
+VALUES
+(16, 2, 2.76, 4, 5);
+INSERT INTO RaceResult
+VALUES
+(17, 3, 2.77, 4, 4);
+INSERT INTO RaceResult
+VALUES
+(18, 4, 2.78, 4, 3);
+INSERT INTO RaceResult
+VALUES
+(19, 5, 2.79, 4, 2);
+INSERT INTO RaceResult
+VALUES
+(20, 1, 2.65, 5, 5);
+INSERT INTO RaceResult
+VALUES
+(21, 2, 2.66, 5, 4);
+INSERT INTO RaceResult
+VALUES
+(22, 3, 2.67, 5, 3);
+INSERT INTO RaceResult
+VALUES
+(23, 4, 2.68, 5, 2);
+INSERT INTO RaceResult
+VALUES
+(24, 5, 2.69, 5, 1);
 
 INSERT INTO PaddleOwns
 VALUES
@@ -167,10 +218,31 @@ VALUES
 INSERT INTO PaddleOwns
 VALUES
 (6, 'Wood', 'Woodlyft', 50, 'Brown');
+INSERT INTO PaddleOwns
+VALUES
+(7, 'Wood', 'Woodlyft', 50, 'Brown');
+INSERT INTO PaddleOwns
+VALUES
+(8, 'Wood', 'Woodlyft', 50, 'Brown');
+INSERT INTO PaddleOwns
+VALUES
+(9, 'Wood', 'Woodlyft', 50, 'Brown');
+INSERT INTO PaddleOwns
+VALUES
+(10, 'Wood', 'Woodlyft', 50, 'Brown');
+INSERT INTO PaddleOwns
+VALUES
+(11, 'Wood', 'Woodlyft', 50, 'Brown');
+INSERT INTO PaddleOwns
+VALUES
+(12, 'Wood', 'Woodlyft', 50, 'Brown');
+INSERT INTO PaddleOwns
+VALUES
+(13, 'Wood', 'Woodlyft', 50, 'Brown');
+INSERT INTO PaddleOwns
+VALUES
+(14, 'Wood', 'Woodlyft', 50, 'Brown');
+INSERT INTO PaddleOwns
+VALUES
+(15, 'Burnwater', 'Trivium', 49, 'Black');
 
-INSERT INTO Participates
-VALUES
-(1, 1);
-INSERT INTO Participates
-VALUES
-(2, 1);
